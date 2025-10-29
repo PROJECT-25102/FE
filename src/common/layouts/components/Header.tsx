@@ -1,5 +1,6 @@
 import { NavLink } from "react-router";
 import RegisterModal from "../../../components/RegisterModal";
+import LoginModal from "../../../components/LoginModal";
 
 const Header = () => {
   const navItems = [
@@ -61,9 +62,11 @@ const Header = () => {
                 Đăng ký
               </button>
             </RegisterModal>
-            <button className="bg-primary cursor-pointer  h-11 px-10 rounded-full font-medium text-base duration-300 hover:scale-105">
-              Đăng nhập
-            </button>
+            <LoginModal>
+              <button className="bg-primary cursor-pointer  h-11 px-10 rounded-full font-medium text-base duration-300 hover:scale-105">
+                Đăng nhập
+              </button>
+            </LoginModal>
           </div>
         </div>
       </div>
