@@ -1,16 +1,27 @@
+import { ConfigProvider, theme } from "antd";
 import { Outlet } from "react-router";
-import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Header from "./components/Header";
 
 const MainLayout = () => {
   return (
-    <>
-      <Header />
-      <main>
-        <Outlet />
-      </main>
-      <Footer />
-    </>
+    <div className="bg-[#10141b] min-h-screen text-white">
+      <ConfigProvider
+        theme={{
+          algorithm: theme.darkAlgorithm,
+          token: {
+            colorBgContainer: "#10141b",
+            colorPrimary: "#ef4444",
+          },
+        }}
+      >
+        <Header />
+        <main>
+          <Outlet />
+        </main>
+        <Footer />
+      </ConfigProvider>
+    </div>
   );
 };
 

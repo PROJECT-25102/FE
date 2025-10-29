@@ -1,5 +1,9 @@
 const HomePage = () => {
-  return <div>HomePage</div>;
+  return (
+    <section>
+      <div className="max-w-7xl xl:mx-auto mx-6">HomePage</div>
+    </section>
+  );
 };
 
 export default HomePage;
