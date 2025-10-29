@@ -13,6 +13,13 @@ const MainLayout = () => {
             colorBgContainer: "#10141b",
             colorPrimary: "#ef4444",
           },
+          components: {
+            Modal: {
+              contentBg: "transparent",
+              headerBg: "transparent",
+              footerBg: "transparent",
+            },
+          },
         }}
       >
         <Header />

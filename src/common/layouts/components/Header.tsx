@@ -1,4 +1,5 @@
 import { NavLink } from "react-router";
+import RegisterModal from "../../../components/RegisterModal";
 
 const Header = () => {
   const navItems = [
@@ -55,9 +56,11 @@ const Header = () => {
             ))}
           </ul>
           <div className="flex gap-4 items-center">
-            <button className="border cursor-pointer hover:bg-blue-300/30 duration-300 hover:scale-105 border-white h-11 px-10 rounded-full font-medium text-base">
-              Đăng ký
-            </button>
+            <RegisterModal>
+              <button className="border cursor-pointer hover:bg-blue-300/30 duration-300 hover:scale-105 border-white h-11 px-10 rounded-full font-medium text-base">
+                Đăng ký
+              </button>
+            </RegisterModal>
             <button className="bg-primary cursor-pointer  h-11 px-10 rounded-full font-medium text-base duration-300 hover:scale-105">
               Đăng nhập
             </button>
