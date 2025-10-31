@@ -32,6 +32,7 @@ const RegisterModal = ({
         width={600}
         className="rounded-xl border border-white/10  backdrop-blur-md"
         style={{
+          top: 30,
           background: `hsl(222.2 84% 4.9%)`,
         }}
         title={
