@@ -9,3 +9,10 @@ export const registerApi = async (
   const { data } = await api.post("/auth/register", payload);
   return data;
 };
+
+export const loginApi = async (
+  payload: Pick<IRegisterPayload, "email" | "password">,
+): Promise<TypeResponse<{ user: IUser; accessToken: string }>> => {
+  const { data } = await api.post("/auth/login", payload);
+  return data;
+};

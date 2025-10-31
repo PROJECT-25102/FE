@@ -1,8 +1,13 @@
 import { NavLink } from "react-router";
 import RegisterModal from "../../../components/RegisterModal";
 import LoginModal from "../../../components/LoginModal";
+import { useAuthSelector } from "../../stores/useAuthStore";
+import UserToolBar from "./UserToolBar";
+import { BellOutlined, HeartFilled } from "@ant-design/icons";
+import { Badge } from "antd";
 
 const Header = () => {
+  const user = useAuthSelector((state) => state.user);
   const navItems = [
     {
       path: "/",
@@ -56,18 +61,30 @@ const Header = () => {
               </li>
             ))}
           </ul>
-          <div className="flex gap-4 items-center">
-            <RegisterModal>
-              <button className="border cursor-pointer hover:bg-blue-300/30 duration-300 hover:scale-105 border-white h-11 px-10 rounded-full font-medium text-base">
-                Đăng ký
-              </button>
-            </RegisterModal>
-            <LoginModal>
-              <button className="bg-primary cursor-pointer  h-11 px-10 rounded-full font-medium text-base duration-300 hover:scale-105">
-                Đăng nhập
-              </button>
-            </LoginModal>
-          </div>
+          {user ? (
+            <div className="min-w-[320px] flex justify-end items-center">
+              <div className="flex items-center gap-4">
+                <HeartFilled className="text-xl" />
+                <Badge count={0} showZero overflowCount={10}>
+                  <BellOutlined className="text-xl" />
+                </Badge>
+              </div>
+              <UserToolBar user={user} />
+            </div>
+          ) : (
+            <div className="flex gap-4 items-center">
+              <RegisterModal>
+                <button className="border cursor-pointer hover:bg-blue-300/30 duration-300 hover:scale-105 border-white h-11 px-10 rounded-full font-medium text-base">
+                  Đăng ký
+                </button>
+              </RegisterModal>
+              <LoginModal>
+                <button className="bg-primary cursor-pointer  h-11 px-10 rounded-full font-medium text-base duration-300 hover:scale-105">
+                  Đăng nhập
+                </button>
+              </LoginModal>
+            </div>
+          )}
         </div>
       </div>
     </header>

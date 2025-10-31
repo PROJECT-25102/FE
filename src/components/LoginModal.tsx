@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import type { IRegisterPayload } from "../common/types/auth";
 import { formRules } from "../common/utils/formRules";
 import RegisterModal from "./RegisterModal";
+import { useMessage } from "../common/hooks/useMessage";
+import { loginApi } from "../common/services/auth.service";
+import { useAuthSelector } from "../common/stores/useAuthStore";
 
 const LoginModal = ({
   children,
@@ -14,9 +17,22 @@ const LoginModal = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
-  const handleSubmit = (
-    values: Omit<IRegisterPayload, "userName" | "phone" | "confirmPassword">,
+  const { antdMessage, HandleError } = useMessage();
+  const login = useAuthSelector((state) => state.login);
+  const [loading, setLoading] = useState(false);
+  const handleSubmit = async (
+    values: Pick<IRegisterPayload, "email" | "password">,
   ) => {
+    setLoading(true);
+    try {
+      const { data, message } = await loginApi(values);
+      antdMessage.success(message);
+      login(data.user, data.accessToken);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      HandleError(error);
+    }
     console.log(values);
   };
   return (
@@ -84,6 +100,7 @@ const LoginModal = ({
           </div>
           <Form.Item className="mt-4!">
             <Button
+              loading={loading}
               htmlType="submit"
               style={{
                 background: `var(--color-primary)`,
