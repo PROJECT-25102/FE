@@ -48,7 +48,7 @@ const Header = () => {
                 <NavLink
                   to={item.path}
                   className={({ isActive }) =>
-                    `${isActive ? "text-primary" : ""} text-base  hover:text-primary! duration-300`
+                    `${isActive ? "text-primary!" : "text-white!"} text-base  hover:text-primary! duration-300`
                   }
                 >
                   {item.label}
