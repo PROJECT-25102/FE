@@ -9,6 +9,7 @@ import { loginApi, loginGoogle } from "../common/services/auth.service";
 import { useAuthSelector } from "../common/stores/useAuthStore";
 import { GoogleOutlined } from "@ant-design/icons";
 import { useNavigate, useSearchParams } from "react-router";
+import ForgotPasswordModal from "./ForgotPasswordModal";
 
 const LoginModal = ({
   children,
@@ -121,7 +122,9 @@ const LoginModal = ({
             />
           </Form.Item>
           <div className="flex justify-end">
-            <span className="text-primary">Quên mật khẩu</span>
+            <ForgotPasswordModal onSwitch={() => setOpen(false)}>
+              <span className="text-primary cursor-pointer">Quên mật khẩu</span>
+            </ForgotPasswordModal>
           </div>
           <Form.Item className="mt-4!">
             <Button
