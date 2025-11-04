@@ -1,6 +1,6 @@
 import { Button, Form, Input, Modal } from "antd";
 import type { ReactElement } from "react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import type { IRegisterPayload } from "../common/types/auth";
 import { formRules } from "../common/utils/formRules";
 import RegisterModal from "./RegisterModal";
@@ -8,6 +8,7 @@ import { useMessage } from "../common/hooks/useMessage";
 import { loginApi, loginGoogle } from "../common/services/auth.service";
 import { useAuthSelector } from "../common/stores/useAuthStore";
 import { GoogleOutlined } from "@ant-design/icons";
+import { useNavigate, useSearchParams } from "react-router";
 
 const LoginModal = ({
   children,
@@ -16,7 +17,9 @@ const LoginModal = ({
   children: ReactElement;
   onSwitch?: () => void;
 }) => {
-  const [open, setOpen] = useState(false);
+  const [searchParams] = useSearchParams();
+  const nav = useNavigate();
+  const [open, setOpen] = useState(!!searchParams.get("loginModal"));
   const [form] = Form.useForm();
   const { antdMessage, HandleError } = useMessage();
   const login = useAuthSelector((state) => state.login);
@@ -42,11 +45,21 @@ const LoginModal = ({
       const { data } = await loginGoogle();
       setLoading(false);
       window.location.href = data;
+      searchParams.delete("loginModal");
     } catch (error) {
       setLoading(false);
       HandleError(error);
     }
   };
+  useEffect(() => {
+    if (searchParams.get("loginModal")) {
+      searchParams.delete("loginModal");
+      nav({
+        pathname: window.location.pathname,
+        search: searchParams.toString(),
+      });
+    }
+  }, [nav, searchParams]);
   return (
     <>
       {React.cloneElement(children, {
