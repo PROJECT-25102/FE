@@ -16,3 +16,8 @@ export const loginApi = async (
   const { data } = await api.post("/auth/login", payload);
   return data;
 };
+
+export const loginGoogle = async (): Promise<TypeResponse<string>> => {
+  const { data } = await api.post("/auth/google/login");
+  return data;
+};

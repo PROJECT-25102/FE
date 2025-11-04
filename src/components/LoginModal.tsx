@@ -5,8 +5,9 @@ import type { IRegisterPayload } from "../common/types/auth";
 import { formRules } from "../common/utils/formRules";
 import RegisterModal from "./RegisterModal";
 import { useMessage } from "../common/hooks/useMessage";
-import { loginApi } from "../common/services/auth.service";
+import { loginApi, loginGoogle } from "../common/services/auth.service";
 import { useAuthSelector } from "../common/stores/useAuthStore";
+import { GoogleOutlined } from "@ant-design/icons";
 
 const LoginModal = ({
   children,
@@ -20,6 +21,7 @@ const LoginModal = ({
   const { antdMessage, HandleError } = useMessage();
   const login = useAuthSelector((state) => state.login);
   const [loading, setLoading] = useState(false);
+  const [isLoadingGoogle, setLoadingGoogle] = useState(false);
   const handleSubmit = async (
     values: Pick<IRegisterPayload, "email" | "password">,
   ) => {
@@ -33,7 +35,17 @@ const LoginModal = ({
       setLoading(false);
       HandleError(error);
     }
-    console.log(values);
+  };
+  const handleLoginGoogle = async () => {
+    setLoadingGoogle(true);
+    try {
+      const { data } = await loginGoogle();
+      setLoading(false);
+      window.location.href = data;
+    } catch (error) {
+      setLoading(false);
+      HandleError(error);
+    }
   };
   return (
     <>
@@ -101,6 +113,7 @@ const LoginModal = ({
           <Form.Item className="mt-4!">
             <Button
               loading={loading}
+              disabled={loading || isLoadingGoogle}
               htmlType="submit"
               style={{
                 background: `var(--color-primary)`,
@@ -112,7 +125,20 @@ const LoginModal = ({
               Đăng nhập
             </Button>
           </Form.Item>
-          <p className="text-center">
+          <Button
+            onClick={() => handleLoginGoogle()}
+            loading={isLoadingGoogle}
+            disabled={isLoadingGoogle || loading}
+            style={{
+              height: 45,
+              borderRadius: `calc(infinity * 1px)`,
+              width: "100%",
+            }}
+            icon={<GoogleOutlined />}
+          >
+            Đăng nhập với google
+          </Button>
+          <p className="text-center mt-6">
             Bạn đã chưa tài khoản?{" "}
             <RegisterModal onSwitch={() => setOpen(false)}>
               <span className="text-primary cursor-pointer hover:underline">
