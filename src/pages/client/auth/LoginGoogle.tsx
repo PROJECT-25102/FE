@@ -16,7 +16,8 @@ const LoginGoogle = () => {
           console.log(data);
           if (data) {
             login(data, token as string);
-            navigate("/", { replace: true });
+            if (data.role === "admin") navigate("/admin");
+            if (data.role !== "admin") navigate("/", { replace: true });
           }
         } catch (error) {
           console.log(error);

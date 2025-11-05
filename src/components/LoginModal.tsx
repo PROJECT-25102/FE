@@ -34,6 +34,9 @@ const LoginModal = ({
       const { data, message } = await loginApi(values);
       antdMessage.success(message);
       login(data.user, data.accessToken);
+      if (data.user.role === "admin") {
+        nav("/admin");
+      }
       setLoading(false);
     } catch (error) {
       setLoading(false);

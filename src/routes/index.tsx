@@ -1,9 +1,11 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
 import NotFoundPage from "../pages/NotFoundPage";
 import { MainRoutes } from "./MainRoutes";
+import { AdminRoutes } from "./AdminRoutes";
 
 const routes = createBrowserRouter([
   ...MainRoutes,
+  ...AdminRoutes,
   {
     path: "*",
     element: <NotFoundPage />,
