@@ -14,3 +14,10 @@ export const updateStatusMovie = async (id: string) => {
   const { data } = await api.patch(`/movie/status/${id}`);
   return data;
 };
+
+export const createMovieAPI = async (
+  payload: any,
+): Promise<TypeResponse<IMovie>> => {
+  const { data } = await api.post("/movie", payload);
+  return data;
+};

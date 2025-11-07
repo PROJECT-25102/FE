@@ -5,6 +5,7 @@ import ListMovie from "../pages/admin/movie/ListMovie";
 import ListRoom from "../pages/admin/room/ListRoom";
 import ListShowtime from "../pages/admin/showtime/ListShowTime";
 import ListUser from "../pages/admin/user/ListUser";
+import CreateMovie from "../pages/admin/movie/create/CreateMovie";
 
 export const AdminRoutes: RouteObject[] = [
   {
@@ -21,6 +22,10 @@ export const AdminRoutes: RouteObject[] = [
           {
             index: true,
             element: <ListMovie />,
+          },
+          {
+            path: "create",
+            element: <CreateMovie />,
           },
         ],
       },

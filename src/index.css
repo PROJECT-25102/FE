@@ -19,3 +19,14 @@ select:-webkit-autofill {
   -webkit-text-fill-color: white !important;
   transition: background-color 9999s ease-in-out 0s !important;
 }
+
+.custom-input-number .ant-input-number-input {
+  height: 35px !important;
+  line-height: 35px !important;
+}
+
+html,
+body {
+  overscroll-behavior: none;
+  height: 100%;
+}
