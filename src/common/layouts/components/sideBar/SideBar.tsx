@@ -1,28 +1,22 @@
-import { Button, Layout } from "antd";
-import { Link, useNavigate } from "react-router";
-import { useAuthSelector } from "../../../stores/useAuthStore";
+import { Layout } from "antd";
+import { Link } from "react-router";
 import { menuGroups } from "./_options";
 import SideBarItems from "./SideBarItems";
 const { Sider } = Layout;
 
 const SideBar = () => {
-  const { logout } = useAuthSelector((state) => ({
-    logout: state.logout,
-  }));
-  const nav = useNavigate();
   return (
     <Sider
       width={280}
       style={{
         position: "fixed",
         height: "100dvh",
-        overflowY: "auto",
-        background: "#121822",
+        padding: "24px 0px 24px 16px",
+        background: `#10141b`,
       }}
-      className="shadow-md"
     >
-      <div>
-        <div className="px-6 pt-4 pb-4 border-b border-gray-200">
+      <div className="shadow-md  w-full h-full bg-[#121822] rounded-md">
+        <div className="px-6 pt-4 pb-4 border-b border-gray-200/30">
           <div className="text-lg font-medium flex items-center gap-3">
             <Link
               to={"/"}
@@ -43,18 +37,6 @@ const SideBar = () => {
             ))}
           </ul>
         </div>
-      </div>
-      <div className="px-6 absolute bottom-8 w-full">
-        <Button
-          onClick={() => {
-            nav("/");
-            logout();
-          }}
-          className="w-full! text-primary!"
-          type="dashed"
-        >
-          Đăng xuất
-        </Button>
       </div>
     </Sider>
   );
