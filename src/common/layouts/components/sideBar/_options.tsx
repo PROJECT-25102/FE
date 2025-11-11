@@ -4,6 +4,7 @@ import {
   DesktopOutlined,
   LineChartOutlined,
   TeamOutlined,
+  TagOutlined,
 } from "@ant-design/icons";
 import type { JSX } from "react";
 
@@ -32,6 +33,15 @@ export const menuGroups: IMenuItem[] = [
     children: [
       { label: "Tạo mới phim", route: "/admin/movie/create" },
       { label: "Tất cả phim", route: "/admin/movie" },
+    ],
+  },
+  {
+    icon: <TagOutlined />,
+    label: "Quản lý thể loại",
+    route: "/admin/category",
+    children: [
+      { label: "Tạo mới thể loại", route: "/admin/category/create" },
+      { label: "Tất cả thể loại", route: "/admin/category" },
     ],
   },
   {
