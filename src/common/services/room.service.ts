@@ -11,6 +11,13 @@ export const getAllRoom = async (
   return data;
 };
 
+export const getSeatByRoom = async (
+  roomId: string,
+): Promise<TypeResponse<IRoom & { seats: ISeat[] }>> => {
+  const { data } = await api.get(`/room/seat/${roomId}`);
+  return data;
+};
+
 export const createRoom = async (
   payload: IPayloadRoomWithSeats,
 ): Promise<TypeResponse<IRoom & { seats: ISeat[] }>> => {
