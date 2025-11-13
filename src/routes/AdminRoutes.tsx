@@ -8,6 +8,7 @@ import ListMovie from "../pages/admin/movie/ListMovie";
 import CreateMovie from "../pages/admin/movie/create/CreateMovie";
 import UpdateMovie from "../pages/admin/movie/update/UpdateMovie";
 import ListRoom from "../pages/admin/room/ListRoom";
+import CreateRoom from "../pages/admin/room/create/CreateRoom";
 import ListShowtime from "../pages/admin/showtime/ListShowTime";
 import ListUser from "../pages/admin/user/ListUser";
 
@@ -60,6 +61,10 @@ export const AdminRoutes: RouteObject[] = [
           {
             index: true,
             element: <ListRoom />,
+          },
+          {
+            path: "create",
+            element: <CreateRoom />,
           },
         ],
       },

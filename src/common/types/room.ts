@@ -1,3 +1,5 @@
+import type { ISeat } from "./seat";
+
 export interface IRoom {
   _id: string;
   name: string;
@@ -8,4 +10,8 @@ export interface IRoom {
   status: boolean;
   createdAt?: string;
   updatedAt?: string;
+}
+
+export interface IPayloadRoomWithSeats extends Omit<IRoom, "_id" | "status"> {
+  seats: Omit<ISeat, "_id" | "roomId">[];
 }

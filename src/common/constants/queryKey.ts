@@ -5,4 +5,5 @@ export const QUERYKEY = {
     SHOWING: "SHOWING",
   }),
   ROOM: Object.assign("ROOM", {}),
+  SEAT: Object.assign("SEAT", {}),
 };
