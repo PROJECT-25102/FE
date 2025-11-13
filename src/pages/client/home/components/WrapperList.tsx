@@ -1,13 +1,14 @@
 import React, { type ReactElement } from "react";
 import CardFlim from "../../../../components/CardFlim";
 import { Spin } from "antd";
+import type { IMovie } from "../../../../common/types/movie";
 
 type IProps = {
   title: string | ReactElement;
   borderTop?: boolean;
   moreText?: string | ReactElement;
   isLoading?: boolean;
-  data?: any;
+  data?: IMovie[];
 };
 
 const WrapperList = ({ title, moreText, data, isLoading }: IProps) => {
@@ -29,7 +30,7 @@ const WrapperList = ({ title, moreText, data, isLoading }: IProps) => {
           <Spin size="large" />
         </div>
       )}
-      {data && !isLoading && data.lenght !== 0 ? (
+      {data && !isLoading && data.length !== 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 mt-4 gap-x-6 gap-y-8">
           {data?.map((item: any, index: number) => (
             <CardFlim flim={item} key={index} />

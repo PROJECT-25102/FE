@@ -13,10 +13,13 @@ export interface IMovie {
   ageRequire: "P" | "K" | "C13" | "C16" | "C18";
   duration: number;
   statusRelease: "upcoming" | "nowShowing" | "released";
-  releaseDate: string;
-  endDate: string;
+  releaseDate: Date;
+  endDate: Date;
   isFeatured: boolean;
   status: boolean;
+  country: string;
+  language: string;
+  subLanguage: string;
   createdAt?: string;
   updatedAt?: string;
 }

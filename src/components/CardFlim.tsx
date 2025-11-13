@@ -1,12 +1,20 @@
 import { Badge, Tag, Tooltip } from "antd";
 import { getAgeBadge } from "../common/utils/agePolicy";
+import type { IMovie } from "../common/types/movie";
+import type { ICategory } from "../common/types/category";
+import dayjs from "dayjs";
 
-const CardFlim = ({ flim }: { flim: any }) => {
+const CardFlim = ({ flim }: { flim: IMovie }) => {
   const { label, text, description } = getAgeBadge(flim?.ageRequire);
   return (
     <div className="group cursor-pointer">
       <Badge.Ribbon
-        text={flim?.language || ""}
+        text={
+          flim?.language
+            ? flim.language +
+              (flim.subLanguage ? ` (P.đề ${flim.subLanguage})` : "")
+            : ""
+        }
         color={"#6B7280"}
         placement="start"
         style={{ top: 35 }}
@@ -23,7 +31,7 @@ const CardFlim = ({ flim }: { flim: any }) => {
           <div className={` overflow-hidden rounded-lg max-h-[268px]`}>
             <img
               src={
-                flim?.thumbnail ||
+                flim?.poster ||
                 "https://pbs.twimg.com/profile_images/1258424935032041473/SCpI1POo_400x400.jpg"
               }
               alt=""
@@ -35,7 +43,9 @@ const CardFlim = ({ flim }: { flim: any }) => {
 
       <div className="mt-4">
         <p className="text-sm text-gray-300/50 mb-1">
-          {flim?.tag?.join(", ") || "Chưa cập nhật"}
+          {(flim?.category as ICategory[])
+            ?.map((item) => item.name)
+            ?.join(", ") || "Chưa cập nhật"}
         </p>
         <h3
           className="uppercase font-semibold line-clamp-2 h-12 text-base group-hover:text-primary duration-300"
@@ -43,8 +53,8 @@ const CardFlim = ({ flim }: { flim: any }) => {
         >
           {flim?.name || "Chưa cập nhật"}
         </h3>
-        <Tag color="green" className="text-sm!">
-          {flim?.relaseDate || "Chưa cập nhật"}
+        <Tag color="green" className="text-sm! mt-2!">
+          {dayjs(flim.releaseDate).format("YYYY-MM-DD") || "Chưa cập nhật"}
         </Tag>
       </div>
     </div>

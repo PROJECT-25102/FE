@@ -1,12 +1,29 @@
+import { useQueries } from "@tanstack/react-query";
 import { Link } from "react-router";
+import { QUERYKEY } from "../../../common/constants/queryKey";
+import { getAllMovie } from "../../../common/services/movie.service";
 import Banner from "./components/Banner";
-import WrapperList from "./components/WrapperList";
 import DiscountEvent from "./components/DiscountEvent";
-import { film_coming, film_fes, film_mock } from "../../../mock/Flim";
-import FestivalFilm from "./components/FestivalFlim";
 import Event from "./components/Event";
+import FestivalFilm from "./components/FestivalFlim";
+import WrapperList from "./components/WrapperList";
 
 const HomePage = () => {
+  const result = useQueries({
+    queries: [
+      {
+        queryKey: [QUERYKEY.MOVIE, QUERYKEY.MOVIE.SHOWING],
+        queryFn: () =>
+          getAllMovie({ status: true, statusRelease: "nowShowing" }),
+      },
+      {
+        queryKey: [QUERYKEY.MOVIE, QUERYKEY.MOVIE.UPCOMING],
+        queryFn: () => getAllMovie({ status: true, statusRelease: "upcoming" }),
+      },
+    ],
+  });
+  const { data: showingData, isLoading: isLoadingShowing } = result[0];
+  const { data: incomingData, isLoading: isLoadingIncoming } = result[1];
   return (
     <>
       <section>
@@ -20,21 +37,8 @@ const HomePage = () => {
           <div>
             <WrapperList
               title={"Phim đang chiếu"}
-              data={film_mock}
-              moreText={
-                <Link
-                  to={"/showtimes"}
-                  className="underline hover:text-primary duration-300"
-                >
-                  Xem tất cả
-                </Link>
-              }
-            />
-          </div>
-          <div className="mt-20">
-            <FestivalFilm
-              title={"Liên hoan phim,Tuần phim"}
-              data={film_fes}
+              isLoading={isLoadingShowing}
+              data={showingData?.data}
               moreText={
                 <Link
                   to={"/showtimes"}
@@ -48,7 +52,8 @@ const HomePage = () => {
           <div className="mt-20">
             <FestivalFilm
               title={"Phim sắp chiếu"}
-              data={film_coming}
+              isLoading={isLoadingIncoming}
+              data={incomingData?.data}
               moreText={
                 <Link
                   to={"/showtimes"}
