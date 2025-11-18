@@ -119,7 +119,7 @@ const UpdateMovie = () => {
                 getValueFromEvent={(e) => e}
                 rules={[{ required: true, message: "Vui lòng tải ảnh lên!" }]}
               >
-                <UploadImage width={250} height={400} />
+                <UploadImage width={200} height={310} />
               </Form.Item>
               <div className="flex-1">
                 <Form.Item
@@ -138,7 +138,6 @@ const UpdateMovie = () => {
                   name={"duration"}
                   required
                   initialValue={10}
-                  style={{ flex: 1 }}
                   rules={[formRules.required("Thời gian chiếu phim")]}
                 >
                   <InputNumber
@@ -150,12 +149,11 @@ const UpdateMovie = () => {
                     style={{ width: "100%" }}
                   />
                 </Form.Item>
-
                 <Form.Item
                   label="Thể loại phim"
                   name={"category"}
                   required
-                  style={{ flex: 1 }}
+                  rules={[formRules.required("Thể loại phim")]}
                 >
                   <Select
                     mode="multiple"
@@ -168,53 +166,6 @@ const UpdateMovie = () => {
                     }))}
                   />
                 </Form.Item>
-                <div className="flex items-center gap-6">
-                  <Form.Item
-                    label="Quốc gia"
-                    name={"country"}
-                    required
-                    style={{ flex: 1 }}
-                    rules={[formRules.required("Quốc gia", "choose")]}
-                  >
-                    <Select
-                      showSearch
-                      placeholder="Chọn Quốc gia phim"
-                      style={{ width: "100%", height: 35 }}
-                      tokenSeparators={[","]}
-                      options={COUNTRY_OPTIONS}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    label="Ngôn ngữ"
-                    name={"language"}
-                    required
-                    style={{ flex: 1 }}
-                    rules={[formRules.required("Ngôn ngữ", "choose")]}
-                  >
-                    <Select
-                      showSearch
-                      placeholder="Chọn ngôn ngữ phim"
-                      style={{ width: "100%", height: 35 }}
-                      tokenSeparators={[","]}
-                      options={LANGUAGE_OPTIONS}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    label="Phụ đề"
-                    name={"subLanguage"}
-                    required
-                    style={{ flex: 1 }}
-                    rules={[formRules.required("Ngôn ngữ", "choose")]}
-                  >
-                    <Select
-                      showSearch
-                      placeholder="Chọn phụ đề phim"
-                      style={{ width: "100%", height: 35 }}
-                      tokenSeparators={[","]}
-                      options={LANGUAGE_OPTIONS}
-                    />
-                  </Form.Item>
-                </div>
                 <Form.Item
                   label="Phim dành cho lứa tuổi"
                   name={"ageRequire"}
@@ -244,31 +195,80 @@ const UpdateMovie = () => {
                 </Form.Item>
               </div>
             </section>
+            <section className="flex items-center justify-between gap-6">
+              <Form.Item
+                label="Quốc gia"
+                name={"country"}
+                required
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng chọn quốc gia của phim",
+                  },
+                ]}
+                className="flex-1"
+              >
+                <Select
+                  placeholder="Chọn quốc gia"
+                  style={{ height: 35 }}
+                  showSearch
+                  options={COUNTRY_OPTIONS}
+                />
+              </Form.Item>
+              <Form.Item
+                label="Ngôn ngữ"
+                name={"language"}
+                required
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng chọn ngôn ngữ của phim",
+                  },
+                ]}
+                className="flex-1"
+              >
+                <Select
+                  placeholder="Chọn quốc gia"
+                  style={{ height: 35 }}
+                  showSearch
+                  options={LANGUAGE_OPTIONS}
+                />
+              </Form.Item>
+              <Form.Item
+                label="Ngôn ngữ"
+                className="flex-1"
+                name={"subLanguage"}
+              >
+                <Select
+                  placeholder="Chọn phụ đề"
+                  style={{ height: 35 }}
+                  showSearch
+                  options={LANGUAGE_OPTIONS}
+                />
+              </Form.Item>
+            </section>
             <section className="flex items-center gap-6">
-              <div className="flex-1">
-                <Form.Item
-                  label="Đạo diễn"
-                  name={"director"}
-                  tooltip="Nhập tên một diễn viên bất kỳ và enter bạn có thể nhập được tên diễn viên tiếp theo"
-                  required
-                  rules={[
-                    { required: true, message: "Vui lòng nhập tên đạo diễn" },
-                  ]}
-                >
-                  <Input
-                    placeholder="Nhập tên đạo diễn"
-                    style={{ height: 35 }}
-                  />
-                </Form.Item>
-              </div>
-              <div className="flex-1">
-                <Form.Item label="Trailer youtube" name={"trailer"}>
-                  <Input
-                    placeholder="Nhập link youtube"
-                    style={{ height: 35 }}
-                  />
-                </Form.Item>
-              </div>
+              <Form.Item
+                label="Đạo diễn"
+                name={"director"}
+                tooltip="Nhập tên một diễn viên bất kỳ và enter bạn có thể nhập được tên diễn viên tiếp theo"
+                required
+                style={{
+                  flex: 1,
+                }}
+                rules={[
+                  { required: true, message: "Vui lòng nhập tên đạo diễn" },
+                ]}
+              >
+                <Input placeholder="Nhập tên đạo diễn" style={{ height: 35 }} />
+              </Form.Item>
+              <Form.Item
+                label="Trailer youtube"
+                name={"trailer"}
+                style={{ flex: 1 }}
+              >
+                <Input placeholder="Nhập link youtube" style={{ height: 35 }} />
+              </Form.Item>
             </section>
             <Form.Item
               label="Diễn viên"
@@ -307,7 +307,7 @@ const UpdateMovie = () => {
                   placeholder="Chọn ngày công chiếu"
                   style={{ height: 35, width: "100%" }}
                   disabledDate={(current) =>
-                    current && current < dayjs().startOf("day")
+                    current && current < dayjs().startOf("day").add(1)
                   }
                 />
               </Form.Item>
