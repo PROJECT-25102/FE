@@ -102,6 +102,20 @@ export const columnMovie = (
       },
     },
     {
+      title: <p style={{ whiteSpace: "nowrap", margin: 0 }}>Quốc gia</p>,
+      dataIndex: "language",
+      key: "language",
+      width: 150,
+      render: (language: string, record: IMovie) => (
+        <div>
+          <TextNowWrap text={`Ngôn ngữ: ${language}`} />
+          {record.subLanguage && (
+            <TextNowWrap text={`Phụ đề: ${record.subLanguage}`} />
+          )}
+        </div>
+      ),
+    },
+    {
       title: (
         <p style={{ whiteSpace: "nowrap", margin: 0 }}>
           Ngày công chiếu - Ngày kết thúc
@@ -146,7 +160,7 @@ export const columnMovie = (
       render: (_: any, record: IMovie) => (
         <Space style={{ display: "flex", gap: 12 }}>
           <Tooltip title="Xem chi tiết">
-            <Link to={`/admin/movie/${record._id}`}>
+            <Link to={`/admin/movie/detail/${record._id}`}>
               <EyeOutlined style={{ cursor: "pointer", fontSize: 18 }} />
             </Link>
           </Tooltip>
