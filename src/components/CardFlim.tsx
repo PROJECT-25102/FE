@@ -3,11 +3,15 @@ import { getAgeBadge } from "../common/utils/agePolicy";
 import type { IMovie } from "../common/types/movie";
 import type { ICategory } from "../common/types/category";
 import dayjs from "dayjs";
+import { Link } from "react-router";
 
 const CardFlim = ({ flim }: { flim: IMovie }) => {
   const { label, text, description } = getAgeBadge(flim?.ageRequire);
   return (
-    <div className="group cursor-pointer">
+    <Link
+      to={`/movie/${flim._id}`}
+      className="group cursor-pointer text-white!"
+    >
       <Badge.Ribbon
         text={
           flim?.language
@@ -57,7 +61,7 @@ const CardFlim = ({ flim }: { flim: IMovie }) => {
           {dayjs(flim.releaseDate).format("YYYY-MM-DD") || "Chưa cập nhật"}
         </Tag>
       </div>
-    </div>
+    </Link>
   );
 };
 

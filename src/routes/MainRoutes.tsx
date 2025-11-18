@@ -3,6 +3,7 @@ import MainLayout from "../common/layouts/MainLayout";
 import HomePage from "../pages/client/home/HomePage";
 import LoginGoogle from "../pages/client/auth/LoginGoogle";
 import VerifyUser from "../pages/client/auth/VerifyUser";
+import DetailMovie from "../pages/client/movie/detail/DetailMovie";
 
 export const MainRoutes: RouteObject[] = [
   {
@@ -12,6 +13,10 @@ export const MainRoutes: RouteObject[] = [
       {
         index: true,
         element: <HomePage />,
+      },
+      {
+        path: "movie/:id",
+        element: <DetailMovie />,
       },
     ],
   },
