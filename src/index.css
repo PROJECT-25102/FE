@@ -30,3 +30,11 @@ body {
   overscroll-behavior: none;
   height: 100%;
 }
+
+.no-wrap-label .ant-descriptions-item-label {
+  white-space: nowrap !important;
+}
+
+.no-wrap-label .ant-descriptions-item {
+  white-space: nowrap !important;
+}
