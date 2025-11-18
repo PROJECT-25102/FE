@@ -19,6 +19,10 @@ import { QUERYKEY } from "../../../../common/constants/queryKey";
 import { useState } from "react";
 import TextArea from "antd/es/input/TextArea";
 import { getAllCategory } from "../../../../common/services/category.service";
+import {
+  COUNTRY_OPTIONS,
+  LANGUAGE_OPTIONS,
+} from "../../../../common/constants/language";
 
 const CreateMovie = () => {
   const [isLoading, setLoading] = useState(false);
@@ -145,20 +149,69 @@ const CreateMovie = () => {
               </Form.Item>
             </div>
           </section>
+          <section className="flex items-center justify-between gap-6">
+            <Form.Item
+              label="Quốc gia"
+              name={"country"}
+              required
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng chọn quốc gia của phim",
+                },
+              ]}
+              className="flex-1"
+            >
+              <Select
+                placeholder="Chọn quốc gia"
+                style={{ height: 35 }}
+                showSearch
+                options={COUNTRY_OPTIONS}
+              />
+            </Form.Item>
+            <Form.Item
+              label="Ngôn ngữ"
+              name={"language"}
+              required
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng chọn ngôn ngữ của phim",
+                },
+              ]}
+              className="flex-1"
+            >
+              <Select
+                placeholder="Chọn quốc gia"
+                style={{ height: 35 }}
+                showSearch
+                options={LANGUAGE_OPTIONS}
+              />
+            </Form.Item>
+            <Form.Item label="Ngôn ngữ" className="flex-1" name={"subLanguage"}>
+              <Select
+                placeholder="Chọn phụ đề"
+                style={{ height: 35 }}
+                showSearch
+                options={LANGUAGE_OPTIONS}
+              />
+            </Form.Item>
+          </section>
           <section className="flex items-center gap-6">
-            <div className="flex-1">
-              <Form.Item
-                label="Đạo diễn"
-                name={"director"}
-                tooltip="Nhập tên một diễn viên bất kỳ và enter bạn có thể nhập được tên diễn viên tiếp theo"
-                required
-                rules={[
-                  { required: true, message: "Vui lòng nhập tên đạo diễn" },
-                ]}
-              >
-                <Input placeholder="Nhập tên đạo diễn" style={{ height: 35 }} />
-              </Form.Item>
-            </div>
+            <Form.Item
+              label="Đạo diễn"
+              name={"director"}
+              tooltip="Nhập tên một diễn viên bất kỳ và enter bạn có thể nhập được tên diễn viên tiếp theo"
+              required
+              style={{
+                flex: 1,
+              }}
+              rules={[
+                { required: true, message: "Vui lòng nhập tên đạo diễn" },
+              ]}
+            >
+              <Input placeholder="Nhập tên đạo diễn" style={{ height: 35 }} />
+            </Form.Item>
             <Form.Item
               label="Trailer youtube"
               name={"trailer"}
