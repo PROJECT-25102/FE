@@ -128,8 +128,8 @@ const DetailMovie = () => {
             </Descriptions.Item>
 
             <Descriptions.Item label="Trạng thái">
-              <Tag color={statusRelease[data.statusRelease].color}>
-                {statusRelease[data.statusRelease].label}
+              <Tag color={statusRelease?.[data.statusRelease]?.color}>
+                {statusRelease?.[data.statusRelease]?.label}
               </Tag>
             </Descriptions.Item>
 
