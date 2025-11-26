@@ -1,19 +1,19 @@
 import type { RouteObject } from "react-router";
 import AdminLayout from "../common/layouts/AdminLayout";
-import DashBoard from "../pages/admin/dashboard/DashBoard";
-import ListMovie from "../pages/admin/movie/ListMovie";
-import ListRoom from "../pages/admin/room/ListRoom";
-import ListShowtime from "../pages/admin/showtime/ListShowTime";
-import ListUser from "../pages/admin/user/ListUser";
-import CreateMovie from "../pages/admin/movie/create/CreateMovie";
-import UpdateMovie from "../pages/admin/movie/update/UpdateMovie";
 import ListCategory from "../pages/admin/category/ListCategory";
 import CreateCategory from "../pages/admin/category/create/CreateCategory";
 import UpdateCategory from "../pages/admin/category/update/UpdateCategory";
+import DashBoard from "../pages/admin/dashboard/DashBoard";
+import ListMovie from "../pages/admin/movie/ListMovie";
+import CreateMovie from "../pages/admin/movie/create/CreateMovie";
+import DetailMovie from "../pages/admin/movie/detail/DetailFlim";
+import UpdateMovie from "../pages/admin/movie/update/UpdateMovie";
+import ListRoom from "../pages/admin/room/ListRoom";
 import SeatRoom from "../pages/admin/room/SeatRoom/SeatRoom";
 import CreateRoom from "../pages/admin/room/create/CreateRoom";
 import UpdateRoom from "../pages/admin/room/update/UpdateRoom";
-import DetailMovie from "../pages/admin/movie/detail/DetailFlim";
+import ListShowtime from "../pages/admin/showtime/ListShowTime";
+import ListUser from "../pages/admin/user/ListUser";
 
 export const AdminRoutes: RouteObject[] = [
   {
@@ -90,12 +90,7 @@ export const AdminRoutes: RouteObject[] = [
       },
       {
         path: "showtime",
-        children: [
-          {
-            index: true,
-            element: <ListShowtime />,
-          },
-        ],
+        element: <ListShowtime />,
       },
       {
         path: "user",

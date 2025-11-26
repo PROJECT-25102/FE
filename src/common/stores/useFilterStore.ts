@@ -5,43 +5,79 @@ import { debounce } from "lodash";
 interface FilterState {
   query: IParams;
   setQuery: (query: IParams) => void;
-  resetFilter: () => void;
-  resetFilterExceptPageAndLimit: () => void;
-  updateQueryParams: (params: IParams) => void;
+  getQuery: (prefix?: string) => IParams;
+  resetFilter: (prefix?: string) => void;
+  resetFilterExceptPageAndLimit: (prefix?: string) => void;
+  updateQueryParams: (params: IParams, prefix?: string) => void;
   onChangeSearchInput: (
     text: string,
-    options: { enableOnChangeSearch: boolean },
+    options: { enableOnChangeSearch: boolean; prefix?: string },
   ) => void;
 }
 
 export const useFilterStore = create<FilterState>((set, get) => ({
   query: {},
-
+  getQuery: (prefix = "") => {
+    const { query } = get();
+    if (!prefix) return query;
+    const result: IParams = {};
+    Object.entries(query).forEach(([key, value]) => {
+      if (key.startsWith(prefix)) {
+        result[key.slice(prefix.length)] = value;
+      }
+    });
+    return result;
+  },
   setQuery: (query) => set({ query }),
-
-  resetFilter: () => set({ query: {} }),
-
-  resetFilterExceptPageAndLimit: () => {
+  resetFilter: (prefix = "") => {
+    const { query } = get();
+    if (!prefix) {
+      set({ query: {} });
+    } else {
+      const newQuery: IParams = {};
+      Object.entries(query).forEach(([key, value]) => {
+        if (!key.startsWith(prefix)) {
+          newQuery[key] = value;
+        }
+      });
+      set({ query: newQuery });
+    }
+  },
+  resetFilterExceptPageAndLimit: (prefix = "") => {
     const { query } = get();
     const newQuery: IParams = {};
-    if (query.page) newQuery.page = query.page;
-    if (query.limit) newQuery.limit = query.limit;
+    Object.entries(query).forEach(([key, value]) => {
+      if (!prefix || key.startsWith(prefix)) {
+        if (key.endsWith("page") || key.endsWith("limit")) {
+          newQuery[key] = value;
+        }
+      } else {
+        newQuery[key] = value;
+      }
+    });
     set({ query: newQuery });
   },
-
-  updateQueryParams: (params: IParams) => {
-    const newParams: IParams = {};
-    for (const [key, value] of Object.entries(params)) {
-      if (value !== undefined && value !== "") newParams[key] = value;
-    }
-    set({ query: newParams });
+  updateQueryParams: (params: IParams, prefix = "") => {
+    const { query } = get();
+    const newQuery = { ...query };
+    Object.entries(params).forEach(([key, value]) => {
+      const finalKey = prefix ? `${prefix}${key}` : key;
+      if (value === undefined || value === null || value === "") {
+        delete newQuery[finalKey];
+      } else {
+        newQuery[finalKey] = value;
+      }
+    });
+    set({ query: newQuery });
   },
-
   onChangeSearchInput: debounce(
-    (text: string, options: { enableOnChangeSearch: boolean }) => {
-      const { query, updateQueryParams } = get();
+    (
+      text: string,
+      options: { enableOnChangeSearch: boolean; prefix?: string },
+    ) => {
+      const { updateQueryParams } = get();
       if (options.enableOnChangeSearch) {
-        updateQueryParams({ ...query, search: text });
+        updateQueryParams({ search: text }, options.prefix);
       }
     },
     500,
