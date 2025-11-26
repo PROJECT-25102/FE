@@ -1,15 +1,15 @@
 import { CalendarOutlined, ClockCircleOutlined } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
-import { Button, Input, Pagination, Tag, Tooltip } from "antd";
+import { Button, Input, Pagination, Select, Tag, Tooltip } from "antd";
 import dayjs from "dayjs";
-import { Link, useParams } from "react-router";
-import { statusRelease } from "../../../common/constants";
+import { Link, Outlet, useParams } from "react-router";
 import { QUERYKEY } from "../../../common/constants/queryKey";
 import { useTableHook } from "../../../common/hooks/useTableHook";
 import { getMovieHasShowtime } from "../../../common/services/showtime.service";
 import type { ICategory } from "../../../common/types/category";
 import { getAgeBadge } from "../../../common/utils/agePolicy";
 import TextNowWrap from "../../../components/TextNowWrap";
+import { statusRelease } from "../../../common/constants";
 
 const ListShowtime = () => {
   const { query, onFilter } = useTableHook("movie");
@@ -51,6 +51,18 @@ const ListShowtime = () => {
               }}
               onSearch={(e) => onFilter({ search: [e] })}
             />
+            <Select
+              style={{ width: 150 }}
+              allowClear
+              onChange={(e) => onFilter({ statusRelease: [e] })}
+              placeholder="Chọn trạng thái"
+              options={[
+                ...Object.entries(statusRelease).map(([key, value]) => ({
+                  value: key,
+                  label: value.label,
+                })),
+              ]}
+            />
           </div>
           <div className="grid grid-cols-3 2xl:flex 2xl:flex-col items-center gap-2 mt-4">
             {data?.data?.map((item) => {
@@ -73,8 +85,9 @@ const ListShowtime = () => {
                       />
                       <p className="line-clamp-1 text-xs text-gray-300/80">
                         {(item.category as ICategory[])
-                          .map((item) => item.name)
-                          .join(", ")}
+                          .filter((c) => c.status)
+                          .map((c) => c.name)
+                          .join(", ") || "Chưa cập nhật"}
                       </p>
                       <div className="mt-2 text-gray-300/80 text-xs flex items-center justify-between">
                         <p className="flex items-center gap-1">
@@ -110,15 +123,19 @@ const ListShowtime = () => {
           </div>
         </div>
         <div className="bg-[#1E2530] rounded-md">
-          <div className="flex flex-col items-center gap-4 justify-center min-h-[35vh]">
-            <div className="text-7xl bg-gray-700 px-8 py-8 rounded-full">
-              <CalendarOutlined />
+          {movieId ? (
+            <Outlet />
+          ) : (
+            <div className="flex flex-col items-center gap-4 justify-center min-h-[35vh]">
+              <div className="text-7xl bg-gray-700 px-8 py-8 rounded-full">
+                <CalendarOutlined />
+              </div>
+              <p className="font-semibold text-2xl">Vui lòng chọn phim</p>
+              <p className="text-gray-300/50 text-base">
+                Chọn một bộ phim từ danh sách bên trái để xem lịch chiếu
+              </p>
             </div>
-            <p className="font-semibold text-2xl">Vui lòng chọn phim</p>
-            <p className="text-gray-300/50 text-base">
-              Chọn một bộ phim từ danh sách bên trái để xem lịch chiếu
-            </p>
-          </div>
+          )}
         </div>
       </div>
     </div>
