@@ -2,6 +2,7 @@ import type { IParams } from "../types/parameter";
 import type { TypeResponse } from "../types/response";
 import type {
   ICreateManyShowtimePayload,
+  ICreateShowtimePayload,
   IMovieHasShowtime,
   IShowtime,
   IWeekdayShowtime,
@@ -35,5 +36,12 @@ export const createManyShowtime = async (
   payload: ICreateManyShowtimePayload,
 ): Promise<TypeResponse<IShowtime[]>> => {
   const { data } = await api.post(`${prefix}/many`, payload);
+  return data;
+};
+
+export const createShowtime = async (
+  payload: ICreateShowtimePayload,
+): Promise<TypeResponse<IShowtime>> => {
+  const { data } = await api.post(`${prefix}`, payload);
   return data;
 };

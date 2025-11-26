@@ -19,6 +19,7 @@ import { getAgeBadge } from "../../../../common/utils/agePolicy";
 import FilterShowtimeInMovie from "../components/FilterShowtimeInMovie";
 import type { ICategory } from "../../../../common/types/category";
 import { formatCurrency } from "../../../../common/utils";
+import CreateShowtimeModal from "./create/CreateShowtimeModal";
 
 const ListShowtimeInMovie = () => {
   const { id: movieId } = useParams();
@@ -104,7 +105,9 @@ const ListShowtimeInMovie = () => {
                   </p>
                 </div>
                 <div>
-                  <Button>Thêm lịch chiếu</Button>
+                  <CreateShowtimeModal movie={movie}>
+                    <Button>Thêm lịch chiếu</Button>
+                  </CreateShowtimeModal>
                 </div>
               </div>
               {data?.data && Object.entries(data?.data).length === 0 && (
