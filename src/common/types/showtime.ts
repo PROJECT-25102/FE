@@ -37,3 +37,18 @@ export interface IShowtime {
 export interface IWeekdayShowtime {
   [key: string]: IShowtime[];
 }
+
+export interface IShowtimePrice {
+  seatType: "Regular" | "VIP" | "Couple" | string;
+  value: number;
+}
+
+export interface ICreateManyShowtimePayload {
+  movieId: string;
+  roomId: string;
+  price: IShowtimePrice[];
+  startDate: string;
+  endDate: string;
+  dayOfWeeks: number[];
+  fixedHour: string;
+}

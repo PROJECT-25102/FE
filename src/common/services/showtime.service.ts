@@ -1,6 +1,7 @@
 import type { IParams } from "../types/parameter";
 import type { TypeResponse } from "../types/response";
 import type {
+  ICreateManyShowtimePayload,
   IMovieHasShowtime,
   IShowtime,
   IWeekdayShowtime,
@@ -27,5 +28,12 @@ export const getShowtimeWeekday = async (
   params?: IParams,
 ): Promise<TypeResponse<IWeekdayShowtime>> => {
   const { data } = await api.get(`${prefix}/weekday`, { params });
+  return data;
+};
+
+export const createManyShowtime = async (
+  payload: ICreateManyShowtimePayload,
+): Promise<TypeResponse<IShowtime[]>> => {
+  const { data } = await api.post(`${prefix}/many`, payload);
   return data;
 };
