@@ -1,6 +1,10 @@
 import type { IParams } from "../types/parameter";
 import type { TypeResponse } from "../types/response";
-import type { IMovieHasShowtime, IShowtime } from "../types/showtime";
+import type {
+  IMovieHasShowtime,
+  IShowtime,
+  IWeekdayShowtime,
+} from "../types/showtime";
 import api from "../utils/api";
 
 const prefix = "/showtime";
@@ -16,5 +20,12 @@ export const getAllShowtime = async (
   params?: IParams,
 ): Promise<TypeResponse<IShowtime[]>> => {
   const { data } = await api.get(`${prefix}`, { params });
+  return data;
+};
+
+export const getShowtimeWeekday = async (
+  params?: IParams,
+): Promise<TypeResponse<IWeekdayShowtime>> => {
+  const { data } = await api.get(`${prefix}/weekday`, { params });
   return data;
 };
