@@ -30,6 +30,7 @@ export interface IShowtime {
   endTime: string;
   price: IPriceShowTime[];
   status: IShowtimeStatus;
+  cancelDescription?: string;
   createdAt?: string;
   updatedAt: string;
 }
@@ -57,4 +58,12 @@ export interface ICreateShowtimePayload {
   roomId: string;
   price: IShowtimePrice[];
   startTime: string;
+}
+
+export interface IUpdateShowtimePayload {
+  roomId: string;
+  price: IShowtimePrice[];
+  startTime: string;
+  status: string;
+  cancelDescription?: string;
 }

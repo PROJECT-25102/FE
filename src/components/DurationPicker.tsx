@@ -10,6 +10,10 @@ interface DurationRangePickerProps {
   placeholder?: [string, string];
   style?: React.CSSProperties;
   disabled?: boolean;
+  disabledTime?: (date: Dayjs | null) => {
+    disabledHours?: () => number[];
+    disabledMinutes?: (hour: number) => number[];
+  };
 }
 
 export const DurationRangePicker = ({
@@ -19,6 +23,7 @@ export const DurationRangePicker = ({
   placeholder = ["Bắt đầu", "Kết thúc"],
   style,
   disabled = false,
+  disabledTime,
 }: DurationRangePickerProps) => {
   const [startTime, setStartTime] = useState<Dayjs | null>(value?.[0] || null);
   const [endTime, setEndTime] = useState<Dayjs | null>(
@@ -53,8 +58,11 @@ export const DurationRangePicker = ({
         placeholder={placeholder[0]}
         style={{ flex: 1, ...style }}
         disabled={disabled}
+        disabledTime={disabledTime}
       />
+
       <SwapRightOutlined />
+
       <Input
         value={endTime ? endTime.format("HH:mm") : ""}
         placeholder={placeholder[1]}

@@ -1,24 +1,18 @@
-import {
-  CalendarOutlined,
-  EditOutlined,
-  EnvironmentOutlined,
-  TeamOutlined,
-} from "@ant-design/icons";
+import { CalendarOutlined } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
 import { Button, Image, Pagination, Spin, Tag, Tooltip } from "antd";
 import dayjs from "dayjs";
 import { useParams } from "react-router";
 import { DAYOFWEEK_LABEL } from "../../../../common/constants/dayOfWeek";
 import { QUERYKEY } from "../../../../common/constants/queryKey";
-import { SHOWTIME_STATUS_BADGE } from "../../../../common/constants/showtime";
 import { useTableHook } from "../../../../common/hooks/useTableHook";
 import { getDetailMovie } from "../../../../common/services/movie.service";
 import { getShowtimeWeekday } from "../../../../common/services/showtime.service";
+import type { ICategory } from "../../../../common/types/category";
 import type { IMovie } from "../../../../common/types/movie";
 import { getAgeBadge } from "../../../../common/utils/agePolicy";
 import FilterShowtimeInMovie from "./components/FilterShowtimeInMovie";
-import type { ICategory } from "../../../../common/types/category";
-import { formatCurrency } from "../../../../common/utils";
+import ShowtimeCard from "./components/ShowtimeCard";
 import CreateShowtimeModal from "./create/CreateShowtimeModal";
 
 const ListShowtimeInMovie = () => {
@@ -130,57 +124,9 @@ const ListShowtimeInMovie = () => {
                       className="grid gap-4 mt-4"
                       style={{ gridTemplateColumns: "repeat(3, 1fr)" }}
                     >
-                      {showtimes.map((item) => {
-                        const values = item.price.map((item) => item.value);
-                        const minPrice = Math.min(...values);
-                        const maxPrice = Math.max(...values);
-                        return (
-                          <div
-                            key={item._id}
-                            className="p-4  border border-gray-500/50 bg-gray-300/5 shadow-md rounded-md"
-                          >
-                            <div className="flex items-center justify-between">
-                              <p className="text-base font-semibold">
-                                {dayjs(item.startTime).format("HH:mm")}
-                              </p>
-                              <Tag
-                                color={SHOWTIME_STATUS_BADGE[item.status].color}
-                              >
-                                {SHOWTIME_STATUS_BADGE[item.status].label}
-                              </Tag>
-                            </div>
-                            <div className="flex items-center justify-between mt-2 ">
-                              <p className="text-gray-300/50 ">
-                                <EnvironmentOutlined />
-                                {item.roomId.name}
-                              </p>
-                              <Tag color="#666666">
-                                0/{item.roomId.capacity}
-                              </Tag>
-                            </div>
-                            <div className="mt-2">
-                              <p className="text-green-500">
-                                {formatCurrency(minPrice)} -{" "}
-                                {formatCurrency(maxPrice)}
-                              </p>
-                            </div>
-                            <div className="flex items-center gap-2 mt-2">
-                              <Button
-                                className="flex-1"
-                                icon={<EditOutlined />}
-                              >
-                                Chỉnh sửa
-                              </Button>
-                              <Button
-                                className="flex-1"
-                                icon={<TeamOutlined />}
-                              >
-                                Ghế
-                              </Button>
-                            </div>
-                          </div>
-                        );
-                      })}
+                      {showtimes.map((item) => (
+                        <ShowtimeCard item={item} />
+                      ))}
                     </div>
                   </div>
                 ))}

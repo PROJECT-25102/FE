@@ -8,8 +8,8 @@ export const SHOWTIME_STATUS = {
 
 export const SHOWTIME_STATUS_BADGE = {
   scheduled: { label: "Chưa chiếu", color: "#3B82F6" },
-  sold_out: { label: "Hết vé", color: "#EF4444" },
+  sold_out: { label: "Hết vé", color: "#F59E0B" },
   in_progress: { label: "Đang chiếu", color: "#10B981" },
   ended: { label: "Kết thúc", color: "#6B7280" },
-  cancelled: { label: "Đã hủy", color: "#F59E0B" },
+  cancelled: { label: "Đã hủy", color: "#EF4444" },
 };

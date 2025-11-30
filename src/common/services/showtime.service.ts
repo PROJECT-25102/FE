@@ -5,6 +5,7 @@ import type {
   ICreateShowtimePayload,
   IMovieHasShowtime,
   IShowtime,
+  IUpdateShowtimePayload,
   IWeekdayShowtime,
 } from "../types/showtime";
 import api from "../utils/api";
@@ -43,5 +44,13 @@ export const createShowtime = async (
   payload: ICreateShowtimePayload,
 ): Promise<TypeResponse<IShowtime>> => {
   const { data } = await api.post(`${prefix}`, payload);
+  return data;
+};
+
+export const updateShowtime = async (
+  payload: IUpdateShowtimePayload,
+  id: string,
+): Promise<TypeResponse<IShowtime>> => {
+  const { data } = await api.patch(`${prefix}/update/${id}`, payload);
   return data;
 };
