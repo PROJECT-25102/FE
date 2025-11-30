@@ -16,7 +16,7 @@ import { getDetailMovie } from "../../../../common/services/movie.service";
 import { getShowtimeWeekday } from "../../../../common/services/showtime.service";
 import type { IMovie } from "../../../../common/types/movie";
 import { getAgeBadge } from "../../../../common/utils/agePolicy";
-import FilterShowtimeInMovie from "../components/FilterShowtimeInMovie";
+import FilterShowtimeInMovie from "./components/FilterShowtimeInMovie";
 import type { ICategory } from "../../../../common/types/category";
 import { formatCurrency } from "../../../../common/utils";
 import CreateShowtimeModal from "./create/CreateShowtimeModal";
