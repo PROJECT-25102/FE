@@ -1,16 +1,19 @@
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router";
-import { QUERYKEY } from "../../../../../common/constants/queryKey";
-import { getShowtimeWeekday } from "../../../../../common/services/showtime.service";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import type { IShowtime } from "../../../../../common/types/showtime";
+import { Link, useParams } from "react-router";
 import { DAYOFWEEK_LABEL } from "../../../../../common/constants/dayOfWeek";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { QUERYKEY } from "../../../../../common/constants/queryKey";
 import { useTableHook } from "../../../../../common/hooks/useTableHook";
+import { getShowtimeWeekday } from "../../../../../common/services/showtime.service";
+import type { IRoom } from "../../../../../common/types/room";
+import type { IShowtime } from "../../../../../common/types/showtime";
+import ModalSelectRoom from "./ModalSelectRoom";
+import SeatPicker from "./SeatPicker";
 
 const ShowtimePicker = () => {
-  const { id } = useParams();
+  const { id, roomId, showtimeId } = useParams();
   const [dateSelect, setDateSelect] = useState<string>();
   const [showtime, setShowtime] = useState<IShowtime[] | null>(null);
   const { query, onSelectPaginateChange } = useTableHook("time");
@@ -61,6 +64,7 @@ const ShowtimePicker = () => {
           Object.entries(data.data).map(([date, showtime]) => (
             <div
               onClick={() => {
+                if (showtimeId && roomId) return;
                 setDateSelect(date);
                 setShowtime(showtime);
               }}
@@ -89,17 +93,41 @@ const ShowtimePicker = () => {
             </button>
           )}
       </div>
-      {!isLoading && (
-        <div className="grid mt-8 grid-cols-5 gap-6 max-w-7xl mx-6 xl:mx-auto">
-          {showtime?.map((item) => (
-            <button
-              key={item._id}
-              className="border border-gray-500/50 hover:bg-gray-500/50 transition cursor-pointer py-4 rounded-full"
-            >
-              {dayjs(item.startTime).format("HH:mm")}
-            </button>
-          ))}
-        </div>
+      {!roomId || !showtimeId ? (
+        <>
+          {!isLoading && (
+            <div className="grid mt-8 grid-cols-5 gap-6 max-w-7xl mx-6 xl:mx-auto">
+              {showtime?.map((item) =>
+                (item.externalRoom?.length as number) > 1 ? (
+                  <ModalSelectRoom
+                    showtime={item}
+                    room={item.externalRoom as IRoom[]}
+                  >
+                    <button
+                      key={item._id}
+                      className="border border-gray-500/50 hover:bg-gray-500/50 transition cursor-pointer py-4 rounded-full"
+                    >
+                      {dayjs(item.startTime).format("HH:mm")}
+                    </button>
+                  </ModalSelectRoom>
+                ) : (
+                  <Link
+                    to={`/movie/${id}/${item._id}/${item.roomId._id}?hour=${dayjs(item.startTime).format("HH:mm")}`}
+                  >
+                    <button
+                      key={item._id}
+                      className="border border-gray-500/50 hover:bg-gray-500/50 w-full text-white transition cursor-pointer py-4 rounded-full"
+                    >
+                      {dayjs(item.startTime).format("HH:mm")}
+                    </button>
+                  </Link>
+                ),
+              )}
+            </div>
+          )}
+        </>
+      ) : (
+        <SeatPicker />
       )}
     </section>
   );

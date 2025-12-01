@@ -7,6 +7,15 @@ export interface ISeat {
   col: number;
   row: number;
   span: number;
+  price?: {
+    seatType: string;
+    value: number;
+  }[];
   type: "NORMAL" | "VIP" | "COUPLE";
   status: boolean;
+}
+
+export interface ISeatStatus extends ISeat {
+  userId: string | null;
+  bookingStatus: string;
 }

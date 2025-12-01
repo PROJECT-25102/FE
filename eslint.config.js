@@ -27,6 +27,7 @@ export default defineConfig([
       "prettier/prettier": "error",
       "react-hooks/rules-of-hooks": "off",
       "@typescript-eslint/no-explicit-any": "off",
+      "react-hooks/exhaustive-deps": "off",
     },
   },
 ]);

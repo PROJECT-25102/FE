@@ -1,13 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router";
+import { useEffect } from "react";
+import { Outlet, useParams } from "react-router";
 import { QUERYKEY } from "../../../../common/constants/queryKey";
 import { getDetailMovie } from "../../../../common/services/movie.service";
 import type { ICategory } from "../../../../common/types/category";
 import { getAgeBadge } from "../../../../common/utils/agePolicy";
-import ModalTrailer from "./components/ModalTrailer";
 import ModalDescription from "./components/ModalDescription";
-import { useEffect } from "react";
-import ShowtimePicker from "./components/ShowtimePicker";
+import ModalTrailer from "./components/ModalTrailer";
 
 const DetailMovie = () => {
   const { id } = useParams();
@@ -99,7 +98,7 @@ const DetailMovie = () => {
           </div>
         </div>
       </div>
-      <ShowtimePicker />
+      <Outlet />
     </div>
   );
 };

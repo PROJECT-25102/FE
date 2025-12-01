@@ -1,6 +1,7 @@
 import type { ClassValue } from "clsx";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
+import type { ISeat } from "../types/seat";
 
 export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));
@@ -20,3 +21,8 @@ export const antdInputNumberPropsCurrency = (
     value ? value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") : "",
   parser: (value?: string) => Number(value?.replace(/\./g, "") || 0),
 });
+
+export const getSeatPrice = (seat: ISeat) => {
+  const found = seat.price && seat.price.find((p) => p.seatType === seat.type);
+  return found?.value || 0;
+};

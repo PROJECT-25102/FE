@@ -1,4 +1,5 @@
 import { seatTypeColor } from "../constants";
+import { SEAT_STATUS, SEAT_STATUS_COLOR } from "../constants/seat";
 import type { ISeat } from "../types/seat";
 
 export function generatePreviewSeats(
@@ -59,12 +60,17 @@ export function generatePreviewSeats(
   };
 }
 
-export const getStyleSeatCard = (seat: ISeat) => {
+export const getStyleSeatCard = (seat: ISeat, color?: string) => {
+  console.log(color);
   return {
     gridRowStart: seat.row,
     gridColumnStart: seat.col,
     gridColumnEnd: `span ${seat.span || 1}`,
-    backgroundColor: seat.status ? seatTypeColor[seat.type] : "#ef4444",
+    backgroundColor: seat.status
+      ? color
+        ? color
+        : seatTypeColor[seat.type]
+      : "#ef4444",
     borderRadius: 8,
     display: "flex",
     justifyContent: "center",
@@ -72,4 +78,21 @@ export const getStyleSeatCard = (seat: ISeat) => {
     color: "#fff",
     cursor: "pointer",
   };
+};
+
+export const getStatusSeat = (status: string, isMyHold: boolean) => {
+  if (status === SEAT_STATUS.HOLD && isMyHold) {
+    return SEAT_STATUS_COLOR[SEAT_STATUS.MYHOLD];
+  }
+  if (status === SEAT_STATUS.BOOKED && isMyHold) {
+    return SEAT_STATUS_COLOR[SEAT_STATUS.MYBOOKED];
+  }
+  switch (status) {
+    case SEAT_STATUS.HOLD:
+      return SEAT_STATUS_COLOR[SEAT_STATUS.HOLD];
+    case SEAT_STATUS.BOOKED:
+      return SEAT_STATUS_COLOR[SEAT_STATUS.BOOKED];
+    default:
+      return "";
+  }
 };

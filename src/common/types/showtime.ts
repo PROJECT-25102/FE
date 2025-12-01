@@ -33,6 +33,7 @@ export interface IShowtime {
   cancelDescription?: string;
   createdAt?: string;
   updatedAt: string;
+  externalRoom?: IRoom[];
 }
 
 export interface IWeekdayShowtime {
