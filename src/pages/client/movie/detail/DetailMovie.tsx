@@ -7,6 +7,7 @@ import { getAgeBadge } from "../../../../common/utils/agePolicy";
 import ModalTrailer from "./components/ModalTrailer";
 import ModalDescription from "./components/ModalDescription";
 import { useEffect } from "react";
+import ShowtimePicker from "./components/ShowtimePicker";
 
 const DetailMovie = () => {
   const { id } = useParams();
@@ -98,6 +99,7 @@ const DetailMovie = () => {
           </div>
         </div>
       </div>
+      <ShowtimePicker />
     </div>
   );
 };
