@@ -25,10 +25,10 @@ import { formatCurrency, getSeatPrice } from "../../../../../common/utils";
 
 const SeatPicker = () => {
   const nav = useNavigate();
-  const { showtimeId, roomId } = useParams();
+  const { id, showtimeId, roomId } = useParams();
   const [searchParams] = useSearchParams();
   const hour = searchParams.get("hour");
-  useUnHoldOnBack();
+  useUnHoldOnBack(true, `/movie/${id}`);
   const userId = useAuthSelector((state) => state.user?._id);
   const { data, isLoading } = useQuery({
     queryKey: [QUERYKEY.SEAT, showtimeId, roomId],
@@ -70,7 +70,7 @@ const SeatPicker = () => {
     };
   }, [queryClient, showtimeId, socket]);
   const handleNavCheckout = () => {
-    nav("/checkout");
+    nav(`/checkout`);
     window.scrollTo({
       top: 0,
       behavior: "smooth",

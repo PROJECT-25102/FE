@@ -39,7 +39,7 @@ const ModalSelectRoom = ({
         <div className="grid mt-8 grid-cols-3 gap-6 max-w-7xl mx-6 xl:mx-auto">
           {room.map((item) => (
             <Link
-              to={`/movie/${id}/${showtime._id}/${item._id}?hour=${dayjs(showtime.startTime).format("HH:mm")}`}
+              to={`/movie/${id}/${showtime._id}/${item._id}?hour=${dayjs(showtime.startTime).format("HH:mm")}&movieId=${showtime.movieId._id}`}
             >
               <button
                 key={item._id}

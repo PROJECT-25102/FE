@@ -6,7 +6,10 @@ import { getSocket } from "../../socket/socket-client";
 import { unHoldSeat } from "../services/seat.showtime.service";
 import { QUERYKEY } from "../constants/queryKey";
 
-export const useUnHoldOnBack = (enableBlockPop: boolean = true) => {
+export const useUnHoldOnBack = (
+  enableBlockPop: boolean = true,
+  navTo?: string,
+) => {
   const queryClient = useQueryClient();
   const nav = useNavigate();
   const handled = useRef(false);
@@ -30,6 +33,10 @@ export const useUnHoldOnBack = (enableBlockPop: boolean = true) => {
         if (handled.current) return;
         handled.current = true;
         mutate();
+        if (navTo) {
+          nav(navTo);
+          return;
+        }
         nav(-2);
       };
 

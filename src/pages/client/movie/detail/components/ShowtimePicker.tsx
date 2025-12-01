@@ -112,7 +112,7 @@ const ShowtimePicker = () => {
                   </ModalSelectRoom>
                 ) : (
                   <Link
-                    to={`/movie/${id}/${item._id}/${item.roomId._id}?hour=${dayjs(item.startTime).format("HH:mm")}`}
+                    to={`/movie/${id}/${item._id}/${item.roomId._id}?hour=${dayjs(item.startTime).format("HH:mm")}&movieId=${item.movieId._id}`}
                   >
                     <button
                       key={item._id}
