@@ -5,6 +5,7 @@ import LoginGoogle from "../pages/client/auth/LoginGoogle";
 import VerifyUser from "../pages/client/auth/VerifyUser";
 import DetailMovie from "../pages/client/movie/detail/DetailMovie";
 import ShowtimePicker from "../pages/client/movie/detail/components/ShowtimePicker";
+import Checkout from "../pages/client/checkout/Checkout";
 
 export const MainRoutes: RouteObject[] = [
   {
@@ -22,6 +23,10 @@ export const MainRoutes: RouteObject[] = [
           { index: true, element: <ShowtimePicker /> },
           { path: ":showtimeId/:roomId", element: <ShowtimePicker /> },
         ],
+      },
+      {
+        path: "/checkout",
+        element: <Checkout />,
       },
     ],
   },

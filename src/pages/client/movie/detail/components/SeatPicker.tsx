@@ -69,6 +69,13 @@ const SeatPicker = () => {
       socket.off("seatUpdated", handleSeatUpdate);
     };
   }, [queryClient, showtimeId, socket]);
+  const handleNavCheckout = () => {
+    nav("/checkout");
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   return (
     <div className="min-h-[80vh]  mt-12">
       <div className="flex flex-col items-center">
@@ -274,6 +281,7 @@ const SeatPicker = () => {
             Quay về
           </Button>
           <Button
+            onClick={handleNavCheckout}
             disabled={!myHoldSeats?.length}
             type="primary"
             style={{
