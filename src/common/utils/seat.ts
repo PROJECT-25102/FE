@@ -49,7 +49,7 @@ export function generatePreviewSeats(
       });
 
       col += span - 1;
-      seatCount += span;
+      seatCount += typeRow === "COUPLE" ? span - 1 : span;
     }
   }
   return {

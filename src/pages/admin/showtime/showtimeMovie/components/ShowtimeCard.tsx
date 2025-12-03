@@ -52,7 +52,9 @@ const ShowtimeCard = ({ item }: { item: IShowtime }) => {
           <EnvironmentOutlined />
           {item.roomId.name}
         </p>
-        <Tag color="#666666">0/{item.roomId.capacity}</Tag>
+        <Tag color="#666666">
+          {item.bookedSeat}/{item.roomId.capacity}
+        </Tag>
       </div>
       <div className="mt-2">
         <p className="text-green-500">
