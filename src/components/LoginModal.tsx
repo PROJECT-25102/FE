@@ -20,7 +20,10 @@ const LoginModal = ({
 }) => {
   const [searchParams] = useSearchParams();
   const nav = useNavigate();
-  const [open, setOpen] = useState(!!searchParams.get("loginModal"));
+  const [open, setOpen] = useAuthSelector((state) => [
+    state.openModal,
+    state.setOpenModal,
+  ]);
   const [form] = Form.useForm();
   const { antdMessage, HandleError } = useMessage();
   const login = useAuthSelector((state) => state.login);
@@ -38,6 +41,7 @@ const LoginModal = ({
         nav("/admin");
       }
       setLoading(false);
+      setOpen(false);
     } catch (error) {
       setLoading(false);
       HandleError(error);
@@ -50,6 +54,7 @@ const LoginModal = ({
       setLoading(false);
       window.location.href = data;
       searchParams.delete("loginModal");
+      setOpen(false);
     } catch (error) {
       setLoading(false);
       HandleError(error);

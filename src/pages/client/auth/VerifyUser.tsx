@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import { Link, useSearchParams } from "react-router";
 import { Button } from "antd";
+import { useAuthSelector } from "../../../common/stores/useAuthStore";
 
 const VerifyUser = () => {
   const [searchParams] = useSearchParams();
   const status = searchParams.get("status");
   const [loading, setLoading] = useState(true);
+  const setOpen = useAuthSelector((state) => state.setOpenModal);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -28,6 +30,7 @@ const VerifyUser = () => {
           </p>
           <Link
             to="/?loginModal=true"
+            onClick={() => setOpen(true)}
             className="hover:opacity-75! hover:text-white! text-white!"
           >
             <Button

@@ -2,18 +2,20 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router";
+import { useParams } from "react-router";
 import { DAYOFWEEK_LABEL } from "../../../../../common/constants/dayOfWeek";
 import { QUERYKEY } from "../../../../../common/constants/queryKey";
+import { useAuthNavigate } from "../../../../../common/hooks/useAuthNavigate";
 import { useTableHook } from "../../../../../common/hooks/useTableHook";
 import { getShowtimeWeekday } from "../../../../../common/services/showtime.service";
+import { useCheckoutSelector } from "../../../../../common/stores/useCheckoutStore";
 import type { IRoom } from "../../../../../common/types/room";
 import type { IShowtime } from "../../../../../common/types/showtime";
 import ModalSelectRoom from "./ModalSelectRoom";
 import SeatPicker from "./SeatPicker";
-import { useCheckoutSelector } from "../../../../../common/stores/useCheckoutStore";
 
 const ShowtimePicker = () => {
+  const nav = useAuthNavigate();
   const { id, roomId, showtimeId } = useParams();
   const [dateSelect, setDateSelect] = useState<string>();
   const setInformation = useCheckoutSelector((state) => state.setInformation);
@@ -113,19 +115,18 @@ const ShowtimePicker = () => {
                     </button>
                   </ModalSelectRoom>
                 ) : (
-                  <Link
-                    to={`/movie/${id}/${item._id}/${item.roomId._id}?hour=${dayjs(item.startTime).format("HH:mm")}&movieId=${item.movieId._id}`}
+                  <button
+                    onClick={() => {
+                      setInformation({ showtime: item, room: item.roomId });
+                      nav(
+                        `/movie/${id}/${item._id}/${item.roomId._id}?hour=${dayjs(item.startTime).format("HH:mm")}&movieId=${item.movieId._id}`,
+                      );
+                    }}
+                    key={item._id}
+                    className="border border-gray-500/50 hover:bg-gray-500/50 w-full text-white transition cursor-pointer py-4 rounded-full"
                   >
-                    <button
-                      onClick={() =>
-                        setInformation({ showtime: item, room: item.roomId })
-                      }
-                      key={item._id}
-                      className="border border-gray-500/50 hover:bg-gray-500/50 w-full text-white transition cursor-pointer py-4 rounded-full"
-                    >
-                      {dayjs(item.startTime).format("HH:mm")}
-                    </button>
-                  </Link>
+                    {dayjs(item.startTime).format("HH:mm")}
+                  </button>
                 ),
               )}
             </div>
