@@ -7,8 +7,13 @@ import DiscountEvent from "./components/DiscountEvent";
 import Event from "./components/Event";
 import FestivalFilm from "./components/FestivalFlim";
 import WrapperList from "./components/WrapperList";
+import { useCheckoutSelector } from "../../../common/stores/useCheckoutStore";
 
 const HomePage = () => {
+  const resetInformation = useCheckoutSelector(
+    (state) => state.resetInformation,
+  );
+  resetInformation();
   const result = useQueries({
     queries: [
       {

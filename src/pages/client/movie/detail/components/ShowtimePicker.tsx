@@ -11,10 +11,12 @@ import type { IRoom } from "../../../../../common/types/room";
 import type { IShowtime } from "../../../../../common/types/showtime";
 import ModalSelectRoom from "./ModalSelectRoom";
 import SeatPicker from "./SeatPicker";
+import { useCheckoutSelector } from "../../../../../common/stores/useCheckoutStore";
 
 const ShowtimePicker = () => {
   const { id, roomId, showtimeId } = useParams();
   const [dateSelect, setDateSelect] = useState<string>();
+  const setInformation = useCheckoutSelector((state) => state.setInformation);
   const [showtime, setShowtime] = useState<IShowtime[] | null>(null);
   const { query, onSelectPaginateChange } = useTableHook("time");
   const { data, isLoading } = useQuery({
@@ -115,6 +117,9 @@ const ShowtimePicker = () => {
                     to={`/movie/${id}/${item._id}/${item.roomId._id}?hour=${dayjs(item.startTime).format("HH:mm")}&movieId=${item.movieId._id}`}
                   >
                     <button
+                      onClick={() =>
+                        setInformation({ showtime: item, room: item.roomId })
+                      }
                       key={item._id}
                       className="border border-gray-500/50 hover:bg-gray-500/50 w-full text-white transition cursor-pointer py-4 rounded-full"
                     >

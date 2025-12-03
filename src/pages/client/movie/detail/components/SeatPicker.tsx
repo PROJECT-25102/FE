@@ -11,6 +11,7 @@ import {
 import { useMessage } from "../../../../../common/hooks/useMessage";
 import { useUnHoldOnBack } from "../../../../../common/hooks/useUnHoldOnBack";
 import {
+  extendHoldSeat,
   getSeatShowtime,
   toggleSeat,
 } from "../../../../../common/services/seat.showtime.service";
@@ -22,6 +23,7 @@ import {
 import CountTime from "../../../../../components/CountTime";
 import { getSocket } from "../../../../../socket/socket-client";
 import { formatCurrency, getSeatPrice } from "../../../../../common/utils";
+import { useCheckoutSelector } from "../../../../../common/stores/useCheckoutStore";
 
 const SeatPicker = () => {
   const nav = useNavigate();
@@ -30,6 +32,7 @@ const SeatPicker = () => {
   const hour = searchParams.get("hour");
   useUnHoldOnBack(true, `/movie/${id}`);
   const userId = useAuthSelector((state) => state.user?._id);
+  const setInformation = useCheckoutSelector((state) => state.setInformation);
   const { data, isLoading } = useQuery({
     queryKey: [QUERYKEY.SEAT, showtimeId, roomId],
     queryFn: () =>
@@ -47,6 +50,10 @@ const SeatPicker = () => {
       });
     },
     onError: (err) => HandleError(err),
+  });
+  const extendHoldMutation = useMutation({
+    mutationFn: (seatIds: string[]) =>
+      extendHoldSeat(showtimeId as string, seatIds),
   });
 
   const myHoldSeats = data?.data.seats.filter(
@@ -69,8 +76,20 @@ const SeatPicker = () => {
       socket.off("seatUpdated", handleSeatUpdate);
     };
   }, [queryClient, showtimeId, socket]);
-  const handleNavCheckout = () => {
-    nav(`/checkout`);
+  const handleNavCheckout = async () => {
+    await extendHoldMutation.mutateAsync(
+      myHoldSeats?.map((item) => item._id) as string[],
+    );
+    nav(`/checkout/${id}/${showtimeId}/${roomId}`);
+    setInformation({
+      seat: myHoldSeats?.map((item) => ({
+        ...item,
+        price:
+          item.price?.find((priceItem) => priceItem.seatType === item.type)
+            ?.value ?? 0,
+      })),
+      totalPrice: total,
+    });
     window.scrollTo({
       top: 0,
       behavior: "smooth",

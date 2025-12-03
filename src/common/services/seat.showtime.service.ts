@@ -29,3 +29,10 @@ export const unHoldSeat = async () => {
   const { data } = await api.patch(`${prefix}/un-hold`);
   return data;
 };
+
+export const extendHoldSeat = async (showtimeId: string, seatIds: string[]) => {
+  const { data } = await api.patch(`${prefix}/extend-hold/${showtimeId}`, {
+    seatIds,
+  });
+  return data;
+};

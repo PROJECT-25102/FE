@@ -6,6 +6,7 @@ import VerifyUser from "../pages/client/auth/VerifyUser";
 import DetailMovie from "../pages/client/movie/detail/DetailMovie";
 import ShowtimePicker from "../pages/client/movie/detail/components/ShowtimePicker";
 import Checkout from "../pages/client/checkout/Checkout";
+import CheckoutResult from "../pages/client/checkout/CheckoutResult";
 
 export const MainRoutes: RouteObject[] = [
   {
@@ -25,8 +26,12 @@ export const MainRoutes: RouteObject[] = [
         ],
       },
       {
-        path: "/checkout",
+        path: "/checkout/:movieId/:showtimeId/:roomId",
         element: <Checkout />,
+      },
+      {
+        path: "/checkout-result",
+        element: <CheckoutResult />,
       },
     ],
   },
