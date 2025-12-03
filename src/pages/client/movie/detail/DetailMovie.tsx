@@ -108,7 +108,15 @@ const DetailMovie = () => {
           </div>
         </div>
       </div>
-      <Outlet />
+      {movie?.statusRelease === "nowShowing" ? (
+        <Outlet />
+      ) : (
+        <div className="bg-[#1a1d23] h-24 relative flex items-center justify-center">
+          <p className="text-primary font-semibold text-lg">
+            Phim chưa công chiếu
+          </p>
+        </div>
+      )}
     </div>
   );
 };
