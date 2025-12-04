@@ -16,6 +16,7 @@ import UpdateRoom from "../pages/admin/room/update/UpdateRoom";
 import DetailMovie from "../pages/admin/movie/detail/DetailFlim";
 import ListShowtimeInMovie from "../pages/admin/showtime/showtimeMovie/ListShowtimeInMovie";
 import CreateMovieShowtime from "../pages/admin/showtime/create/CreateMovieShowtime";
+import ListShowtimeToday from "../pages/admin/showtime/ListShowtimeToday";
 
 export const AdminRoutes: RouteObject[] = [
   {
@@ -100,6 +101,10 @@ export const AdminRoutes: RouteObject[] = [
             element: <CreateMovieShowtime />,
           },
         ],
+      },
+      {
+        path: "showtime/all",
+        element: <ListShowtimeToday />,
       },
       {
         path: "user",

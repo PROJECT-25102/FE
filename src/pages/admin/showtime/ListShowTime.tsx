@@ -12,7 +12,7 @@ import TextNowWrap from "../../../components/TextNowWrap";
 import { statusRelease } from "../../../common/constants";
 
 const ListShowtime = () => {
-  const { query, onFilter } = useTableHook("movie");
+  const { query, onFilter, onSelectPaginateChange } = useTableHook("movie");
   const { id: movieId } = useParams();
   const { pathname } = useLocation();
   const { data } = useQuery({
@@ -26,14 +26,22 @@ const ListShowtime = () => {
   const equalDynamicRoute = ["/admin/showtime/create"];
   return (
     <div className="bg-[#121822] w-full min-h-[87vh] rounded-md shadow-md px-6 py-4">
-      <h3 className="text-base">Quản Lý Lịch Chiếu</h3>
+      <div className="flex items-center gap-3">
+        <h3 className="text-base">Quản Lý Lịch Chiếu</h3>
+        <div className="flex items-center gap-2">
+          <Button type="primary">Lịch chiếu theo phim</Button>
+          <Link to={`/admin/showtime/all`}>
+            <Button>Tất cả lịch chiếu</Button>
+          </Link>
+        </div>
+      </div>
       <div
         className="flex flex-col 2xl:grid mt-4 gap-4"
         style={{
           gridTemplateColumns: "1fr 2.4fr",
         }}
       >
-        <div className="shadow-lg px-4 py-4 rounded-md bg-[#1E2530] 2xl:h-[60vh] h-[40vh]">
+        <div className="shadow-lg px-4 py-4 rounded-md bg-[#1E2530] 2xl:h-[570px] h-[40vh]">
           <div className="flex items-start justify-between ">
             <div>
               <h3>Danh Sách Phim</h3>
@@ -124,6 +132,7 @@ const ListShowtime = () => {
                 <Pagination
                   align="end"
                   size="small"
+                  onChange={onSelectPaginateChange}
                   current={data?.meta?.page}
                   total={data?.meta?.total}
                   pageSize={data?.meta?.limit}

@@ -35,6 +35,7 @@ export interface IShowtime {
   updatedAt: string;
   externalRoom?: IRoom[];
   bookedSeat?: number;
+  bookedCount?: number;
 }
 
 export interface IWeekdayShowtime {
