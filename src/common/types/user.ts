@@ -7,3 +7,10 @@ export interface IUser {
   isVerifed: boolean;
   role: string;
 }
+
+export interface IPayloadUpdateUser {
+  avatar: string;
+  email: string;
+  phone: string;
+  userName: string;
+}
