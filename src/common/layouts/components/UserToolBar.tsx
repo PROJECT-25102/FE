@@ -28,7 +28,7 @@ const UserToolBar = ({ user }: { user: IUser }) => {
       key: "1",
     },
     {
-      label: <Link to={"/profile/orders"}>Vé của tôi</Link>,
+      label: <Link to={"/profile/ticket"}>Vé của tôi</Link>,
       icon: <FileSearchOutlined />,
       key: "2",
     },
