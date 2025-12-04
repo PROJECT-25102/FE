@@ -73,7 +73,7 @@ const RegisterModal = ({
               required
               rules={[
                 formRules.required("Họ"),
-                formRules.textRange("Họ", 2, 12),
+                formRules.textRange("Họ", 2, 25),
               ]}
             >
               <Input
@@ -89,7 +89,7 @@ const RegisterModal = ({
               required
               rules={[
                 formRules.required("Tên"),
-                formRules.textRange("Tên", 2, 12),
+                formRules.textRange("Tên", 2, 25),
               ]}
             >
               <Input

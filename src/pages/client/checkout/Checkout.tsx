@@ -11,6 +11,7 @@ import type { IPayloadCheckout } from "../../../common/types/checkout";
 import { formatCurrency } from "../../../common/utils";
 import { formRules } from "../../../common/utils/formRules";
 import CountTime from "../../../components/CountTime";
+import dayjs from "dayjs";
 const columns = [
   {
     title: <p className="whitespace-nowrap m-0">Danh mục</p>,
@@ -117,7 +118,10 @@ const Checkout = () => {
                 label="Họ và tên"
                 name={"userName"}
                 required
-                rules={[formRules.required("Họ và tên")]}
+                rules={[
+                  formRules.required("Họ và tên"),
+                  formRules.textRange("Họ và tên", 2, 50),
+                ]}
               >
                 <Input placeholder="Nhập họ tên của bạn" />
               </Form.Item>
@@ -125,7 +129,10 @@ const Checkout = () => {
                 label="Số điện thoại"
                 name={"phone"}
                 required
-                rules={[formRules.required("Số điện thoại")]}
+                rules={[
+                  formRules.required("Số điện thoại"),
+                  formRules.textRange("Số điện thoại", 6, 15),
+                ]}
               >
                 <Input placeholder="Nhập số điện thoại của bạn" />
               </Form.Item>
@@ -146,7 +153,10 @@ const Checkout = () => {
               <div className="flex flex-col gap-1 mt-6 text-base">
                 <p>Ngày giờ chiếu</p>
                 <p className="uppercase font-bold">
-                  <span className="text-[#f97316]">19:20</span> - 01/12/2025
+                  <span className="text-[#f97316]">
+                    {dayjs(showtime?.startTime).format("HH:mm")}
+                  </span>{" "}
+                  - {dayjs(showtime?.startTime).format("DD/MM/YYYY")}
                 </p>
               </div>
 
@@ -195,7 +205,7 @@ const Checkout = () => {
                 />
                 <p className="font-semibold">VN Pay</p>
               </div>
-              <div
+              {/* <div
                 onClick={() => setPaymentMethod("momo")}
                 className={`border ${paymentMethod === "momo" ? "border-primary" : "border-gray-300/30"} cursor-pointer rounded-lg p-6 flex items-center gap-2`}
               >
@@ -206,7 +216,7 @@ const Checkout = () => {
                   className="w-12"
                 />
                 <p className="font-semibold">MoMo</p>
-              </div>
+              </div> */}
             </div>
             <div className="mt-4 text-base">
               <h3 className="font-bold text-base">Chi phí</h3>
