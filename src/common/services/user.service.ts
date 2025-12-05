@@ -30,3 +30,10 @@ export const getMyTicket = async (
   const { data } = await api.get(`/user/my-ticket`, { params: query });
   return data;
 };
+
+export const getDetailMyTicket = async (
+  ticketId: string,
+): Promise<TypeResponse<ITicket>> => {
+  const { data } = await api.get(`/user/my-ticket/detail/${ticketId}`);
+  return data;
+};

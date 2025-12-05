@@ -3,6 +3,11 @@ export const TICKET_STATUS: Record<string, string> = {
   CONFIRMED: "Đã sử dụng",
   CANCELLED: "Đã bị huỷ",
 };
+export const STATUS_TICKET = {
+  PENDING: "PENDING",
+  CONFIRMED: "CONFIRMED",
+  CANCELLED: "CANCELLED",
+};
 
 export const TICKET_STATUS_COLOR: Record<string, string> = {
   PENDING: "#3B82F6",

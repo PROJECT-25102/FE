@@ -10,6 +10,7 @@ import CheckoutResult from "../pages/client/checkout/CheckoutResult";
 import ProfileLayout from "../common/layouts/ProfileLayout";
 import Profile from "../pages/client/user/Profile";
 import MyTicket from "../pages/client/user/MyTicket";
+import DetailTicket from "../pages/client/user/detailTicket/DetailTicket";
 
 export const MainRoutes: RouteObject[] = [
   {
@@ -49,6 +50,10 @@ export const MainRoutes: RouteObject[] = [
             element: <MyTicket />,
           },
         ],
+      },
+      {
+        path: "ticket/:ticketId",
+        element: <DetailTicket />,
       },
     ],
   },
