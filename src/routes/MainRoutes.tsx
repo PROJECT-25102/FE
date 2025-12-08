@@ -11,6 +11,7 @@ import ProfileLayout from "../common/layouts/ProfileLayout";
 import Profile from "../pages/client/user/Profile";
 import MyTicket from "../pages/client/user/MyTicket";
 import DetailTicket from "../pages/client/user/detailTicket/DetailTicket";
+import ListMovies from "../pages/client/movie/ListMovies";
 
 export const MainRoutes: RouteObject[] = [
   {
@@ -20,6 +21,14 @@ export const MainRoutes: RouteObject[] = [
       {
         index: true,
         element: <HomePage />,
+      },
+      {
+        path: "movie",
+        element: <ListMovies />,
+      },
+      {
+        path: "movie",
+        element: <ListMovies />,
       },
       {
         path: "movie/:id",

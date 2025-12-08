@@ -14,7 +14,7 @@ const Header = () => {
       label: "Trang chủ",
     },
     {
-      path: "/showtimes",
+      path: "/movie",
       label: "Lịch chiếu",
     },
     {

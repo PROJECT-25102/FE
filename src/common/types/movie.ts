@@ -1,4 +1,5 @@
 import type { ICategory } from "./category";
+import type { IShowtime } from "./showtime";
 
 export interface IMovie {
   _id: string;
@@ -22,4 +23,8 @@ export interface IMovie {
   subLanguage: string;
   createdAt?: string;
   updatedAt?: string;
+}
+
+export interface IMovieShowtime extends IMovie {
+  showtimes: Omit<IShowtime, "movieId">[];
 }

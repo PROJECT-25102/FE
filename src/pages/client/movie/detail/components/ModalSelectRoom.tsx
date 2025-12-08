@@ -11,10 +11,12 @@ const ModalSelectRoom = ({
   children,
   room,
   showtime,
+  movieId,
 }: {
   children: ReactElement;
   room: IRoom[];
   showtime: IShowtime;
+  movieId?: string;
 }) => {
   const [open, setOpen] = useState(false);
   const setInformation = useCheckoutSelector((state) => state.setInformation);
@@ -47,7 +49,7 @@ const ModalSelectRoom = ({
               onClick={() => {
                 setOpen(false);
                 nav(
-                  `/movie/${id}/${showtime._id}/${item._id}?hour=${dayjs(showtime.startTime).format("HH:mm")}&movieId=${showtime.movieId._id}`,
+                  `/movie/${movieId ? movieId : id}/${showtime._id}/${item._id}?hour=${dayjs(showtime.startTime).format("HH:mm")}&movieId=${showtime.movieId._id}`,
                 );
                 setInformation({ showtime: showtime, room: item });
               }}
