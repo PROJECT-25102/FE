@@ -1,11 +1,20 @@
+export interface IBannerUser {
+  isBanned: boolean;
+  description: string;
+  bannedAt: string;
+}
+
 export interface IUser {
   _id: string;
   userName: string;
   avatar: string;
   email: string;
   phone: string;
-  isVerifed: boolean;
+  isVerified: boolean;
   role: string;
+  banned: IBannerUser;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface IPayloadUpdateUser {

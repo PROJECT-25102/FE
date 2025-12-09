@@ -37,3 +37,23 @@ export const getDetailMyTicket = async (
   const { data } = await api.get(`/user/my-ticket/detail/${ticketId}`);
   return data;
 };
+
+export const getAllUser = async (
+  params?: IParams,
+): Promise<TypeResponse<IUser[]>> => {
+  const { data } = await api.get(`/user/all`, { params });
+  return data;
+};
+
+export const bannedUser = async (
+  id: string,
+  payload: { isBanned: boolean; description: string; bannedAt: string },
+): Promise<TypeResponse<IUser>> => {
+  const { data } = await api.patch(`/user/banned/${id}`, payload);
+  return data;
+};
+
+export const updateUser = async (id: string, payload: Partial<IUser>) => {
+  const { data } = await api.patch(`/user/update-admin/${id}`, payload);
+  return data;
+};
