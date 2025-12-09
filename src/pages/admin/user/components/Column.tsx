@@ -42,7 +42,7 @@ export const columnUser = (getSorterProps: (field: keyof IUser) => object) => {
   });
   return [
     {
-      title: <p style={{ whiteSpace: "nowrap", margin: 0 }}>Mã người dùng</p>,
+      title: <p style={{ whiteSpace: "nowrap", margin: 0 }}>Mã</p>,
       dataIndex: "_id",
       key: "_id",
       width: 30,
@@ -82,6 +82,17 @@ export const columnUser = (getSorterProps: (field: keyof IUser) => object) => {
       width: 70,
       render: (role: string) => (
         <Tag color={ROLE_COLOR[role]}>{ROLE_LABEL[role]}</Tag>
+      ),
+    },
+    {
+      title: <p style={{ whiteSpace: "nowrap", margin: 0 }}>Kích hoạt</p>,
+      dataIndex: "isVerified",
+      key: "isVerified",
+      width: 100,
+      render: (isVerified: boolean) => (
+        <p className="whitespace-nowrap">
+          {isVerified ? "Đã kích hoạt" : "Chưa kích hoạt"}
+        </p>
       ),
     },
     {
