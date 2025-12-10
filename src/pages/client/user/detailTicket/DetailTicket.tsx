@@ -12,6 +12,8 @@ import {
   customStatusRender,
   getStatusQrCode,
 } from "../../../../common/utils/qrCode";
+import { useRef } from "react";
+import * as htmlToImage from "html-to-image";
 const column = [
   {
     title: "Phòng chiếu",
@@ -42,6 +44,25 @@ const DetailTicket = () => {
     },
   ];
 
+  const ticketRef = useRef<HTMLDivElement | null>(null);
+
+  const handleSaveImage = async () => {
+    if (!ticketRef.current) return;
+
+    try {
+      const dataUrl = await htmlToImage.toPng(ticketRef.current, {
+        quality: 1,
+        pixelRatio: 2,
+      });
+
+      const link = document.createElement("a");
+      link.download = `ticket-${data?.data?.ticketId || "ticket"}.png`;
+      link.href = dataUrl;
+      link.click();
+    } catch (error) {
+      console.error("Lưu vé thất bại:", error);
+    }
+  };
   return (
     <div className="max-w-7xl xl:mx-auto mx-6">
       <div className="flex items-center mt-20">
@@ -86,62 +107,75 @@ const DetailTicket = () => {
           </Link>
         </div>
 
-        <div className="bg-[#1a1d23] flex-1 p-6 rounded-xl">
-          <h2 className="text-center text-lg font-semibold">Thông tin vé</h2>
-          <p className="mt-4 uppercase font-bold text-lg line-clamp-1">
-            {data?.data?.movieName}
-          </p>
-          <div className="flex items-start mt-4 justify-between">
-            <div>
-              <p className="text-gray-300/50 text-base">Người đặt</p>
-              <p className="font-semibold text-base">
-                {data?.data.customerInfo.userName}
-              </p>
-              <p className="text-gray-300/50 mt-4 text-base">Mã đặt vé</p>
-              <p className="font-semibold text-base uppercase">
-                {data?.data.ticketId || data?.data._id}
+        <div className="bg-[#1a1d23]  flex-1 rounded-xl">
+          <div ref={ticketRef} className="bg-[#1a1d23] p-6 rounded-xl">
+            <h2 className="text-center text-lg font-semibold">Thông tin vé</h2>
+            <p className="mt-4 uppercase font-bold text-lg line-clamp-1">
+              {data?.data?.movieName}
+            </p>
+            <div className="flex items-start mt-4 justify-between">
+              <div>
+                <p className="text-gray-300/50 text-base">Người đặt</p>
+                <p className="font-semibold text-base">
+                  {data?.data.customerInfo.userName}
+                </p>
+                <p className="text-gray-300/50 mt-4 text-base">Mã đặt vé</p>
+                <p className="font-semibold text-base uppercase">
+                  {data?.data.ticketId || data?.data._id}
+                </p>
+              </div>
+              <QRCode
+                value={data?.data.qrCode as string}
+                size={120}
+                status={getStatusQrCode(data?.data.status)}
+                statusRender={customStatusRender}
+              />
+            </div>
+            <p className="text-gray-300/50 text-base mt-4">Người đặt</p>
+            <p className="text-lg text-orange-500 font-semibold">
+              {dayjs(data?.data.startTime).format("HH:mm")}
+            </p>
+            <p className="text-lg font-semibold">
+              {DAYOFWEEK_LABEL[dayjs(data?.data.startTime).day()]} -{" "}
+              {dayjs(data?.data.startTime).format("DD/MM/YYYY")}
+            </p>
+            {data?.data.cancelDescription && (
+              <p className="text-gray-300/50 text-base mt-4">Lý do huỷ</p>
+            )}
+            <p
+              className={` text-lg ${data?.data.cancelDescription ? "text-red-500" : "text-blue-500 mt-4"}`}
+            >
+              {data?.data.cancelDescription
+                ? data.data.cancelDescription
+                : ` Khán giả vui lòng dùng mã này lên thẳng phòng chiếu. Không cần đổi
+            sang vé giấy`}
+            </p>
+            <div className="mt-4">
+              <Table
+                columns={column}
+                dataSource={rowData}
+                pagination={false}
+                bordered
+              />
+            </div>
+            <div className="flex itesm-center justify-between mt-4">
+              <p className="text-gray-300/50 text-base">Tổng tiền</p>
+              <p className="text-lg font-semibold">
+                {data && formatCurrency(data.data.totalPrice as number)}
               </p>
             </div>
-            <QRCode
-              value={data?.data.qrCode as string}
-              size={120}
-              status={getStatusQrCode(data?.data.status)}
-              statusRender={customStatusRender}
-            />
           </div>
-          <p className="text-gray-300/50 text-base mt-4">Người đặt</p>
-          <p className="text-lg text-orange-500 font-semibold">
-            {dayjs(data?.data.startTime).format("HH:mm")}
-          </p>
-          <p className="text-lg font-semibold">
-            {DAYOFWEEK_LABEL[dayjs(data?.data.startTime).day()]} -{" "}
-            {dayjs(data?.data.startTime).format("DD/MM/YYYY")}
-          </p>
-          {data?.data.cancelDescription && (
-            <p className="text-gray-300/50 text-base mt-4">Lý do huỷ</p>
+          {data?.data.status === STATUS_TICKET.PENDING && (
+            <div className="mt-2 pb-6 px-6">
+              <Button
+                onClick={handleSaveImage}
+                className="w-full!"
+                type="primary"
+              >
+                Lưu vé
+              </Button>
+            </div>
           )}
-          <p
-            className={` text-lg ${data?.data.cancelDescription ? "text-red-500" : "text-blue-500 mt-4"}`}
-          >
-            {data?.data.cancelDescription
-              ? data.data.cancelDescription
-              : ` Khán giả vui lòng dùng mã này lên thẳng phòng chiếu. Không cần đổi
-            sang vé giấy`}
-          </p>
-          <div className="mt-4">
-            <Table
-              columns={column}
-              dataSource={rowData}
-              pagination={false}
-              bordered
-            />
-          </div>
-          <div className="flex itesm-center justify-between mt-4">
-            <p className="text-gray-300/50 text-base">Tổng tiền</p>
-            <p className="text-lg font-semibold">
-              {data && formatCurrency(data.data.totalPrice as number)}
-            </p>
-          </div>
         </div>
       </div>
     </div>
