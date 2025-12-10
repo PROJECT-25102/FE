@@ -31,7 +31,7 @@ const TextNowWrap = ({
       {textElement}
     </Tooltip>
   ) : (
-    textElement
+    <p style={{ ...style }}>{textElement}</p>
   );
 };
 
