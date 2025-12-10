@@ -15,8 +15,9 @@ export interface ICustomerInfo {
 export interface ITicket {
   _id: string;
   userId: string;
+  ticketId: string;
   showtimeId: string;
-  status: TicketStatusEnum;
+  status: TicketStatusEnum | string;
   customerInfo: ICustomerInfo;
   movieId: string;
   movieName: string;
@@ -26,6 +27,7 @@ export interface ITicket {
   startTime: string;
   qrCode: string;
   totalPrice: number;
+  usedTime?: string;
   isPaid: boolean;
   cancelDescription?: string;
   createdAt: string;
