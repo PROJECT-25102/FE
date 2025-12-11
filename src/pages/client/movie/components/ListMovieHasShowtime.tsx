@@ -8,6 +8,7 @@ import type { IRoom } from "../../../../common/types/room";
 import type { IShowtime } from "../../../../common/types/showtime";
 import ModalSelectRoom from "../detail/components/ModalSelectRoom";
 import type { ICategory } from "../../../../common/types/category";
+import { useCheckoutSelector } from "../../../../common/stores/useCheckoutStore";
 
 const ListMovieHasShowtime = ({
   startTimeFrom,
@@ -28,6 +29,7 @@ const ListMovieHasShowtime = ({
       }),
     enabled: !!startTimeFrom,
   });
+  const setInformation = useCheckoutSelector((state) => state.setInformation);
   return (
     <div
       className="grid mt-8 gap-8"
@@ -81,6 +83,12 @@ const ListMovieHasShowtime = ({
                   ) : (
                     <Link
                       to={`/movie/${item._id}/${stItem._id}/${stItem.roomId._id}`}
+                      onClick={() =>
+                        setInformation({
+                          showtime: { ...stItem, movieId: item },
+                          room: stItem.roomId,
+                        })
+                      }
                     >
                       <button className="border text-white! border-white px-2 py-1 text-base rounded-md transition hover:bg-gray-500/50 cursor-pointer">
                         {dayjs(stItem.startTime).format("HH:mm")}
