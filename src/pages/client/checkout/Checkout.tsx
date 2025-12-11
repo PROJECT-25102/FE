@@ -112,7 +112,7 @@ const Checkout = () => {
                 required
                 rules={[formRules.required("email")]}
               >
-                <Input placeholder="Nhập email của bạn" disabled />
+                <Input placeholder="Nhập email của bạn" />
               </Form.Item>
               <Form.Item
                 label="Họ và tên"
