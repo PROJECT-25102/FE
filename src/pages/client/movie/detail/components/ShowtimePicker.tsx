@@ -32,7 +32,7 @@ const ShowtimePicker = () => {
         limit: 7,
         groupTime: true,
         startTimeFrom: dayjs()
-          .add(2, "hour")
+          .add(1, "hour")
           .second(0)
           .millisecond(0)
           .toISOString(),
