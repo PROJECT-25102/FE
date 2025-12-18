@@ -14,6 +14,7 @@ import {
   extendHoldSeat,
   getSeatShowtime,
   toggleSeat,
+  unHoldSeat,
 } from "../../../../../common/services/seat.showtime.service";
 import { useAuthSelector } from "../../../../../common/stores/useAuthStore";
 import {
@@ -24,6 +25,7 @@ import CountTime from "../../../../../components/CountTime";
 import { getSocket } from "../../../../../socket/socket-client";
 import { formatCurrency, getSeatPrice } from "../../../../../common/utils";
 import { useCheckoutSelector } from "../../../../../common/stores/useCheckoutStore";
+import type { ISeat } from "../../../../../common/types/seat";
 
 const SeatPicker = () => {
   const nav = useNavigate();
@@ -42,8 +44,15 @@ const SeatPicker = () => {
   const { HandleError } = useMessage();
   const queryClient = useQueryClient();
   const { mutate } = useMutation({
-    mutationFn: (payload: string) =>
-      toggleSeat({ showtimeId: showtimeId as string, seatId: payload }),
+    mutationFn: (payload: ISeat) =>
+      toggleSeat({
+        showtimeId: showtimeId as string,
+        seatId: payload._id,
+        row: payload.row,
+        col: payload.col,
+        roomId: payload.roomId as string,
+        type: payload.type,
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({
         predicate: ({ queryKey }) => queryKey.includes(QUERYKEY.SEAT),
@@ -147,7 +156,7 @@ const SeatPicker = () => {
                       if (seat.bookingStatus === SEAT_STATUS.HOLD && !isMyHold)
                         return;
                       if (seat.bookingStatus === SEAT_STATUS.BOOKED) return;
-                      mutate(seat._id);
+                      mutate(seat);
                     }}
                     key={seat._id}
                     style={{
@@ -290,6 +299,15 @@ const SeatPicker = () => {
           </p>
         </div>
         <div className="flex items-center gap-4">
+          <Button
+            onClick={async () => await unHoldSeat()}
+            style={{
+              padding: "20px 30px",
+              borderRadius: `calc(infinity * 1px)`,
+            }}
+          >
+            Chọn lại ghế
+          </Button>
           <Button
             onClick={() => nav(-1)}
             style={{

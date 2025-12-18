@@ -20,6 +20,10 @@ export const getSeatShowtime = async (
 export const toggleSeat = async (payload: {
   showtimeId: string;
   seatId: string;
+  col: number;
+  row: number;
+  roomId: string;
+  type: string;
 }) => {
   const { data } = await api.post(`${prefix}/toogle-seat`, payload);
   return data;

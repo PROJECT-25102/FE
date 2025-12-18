@@ -6,6 +6,7 @@ type ErrorOptions = {
   type?: "error" | "info" | "warning" | "success";
   fallback?: string;
   silent?: boolean;
+  duration?: number;
 };
 export const useMessage = () => {
   const { message: antdMessage } = App.useApp();
@@ -15,6 +16,7 @@ export const useMessage = () => {
       type = "error",
       fallback = "Đã có lỗi xảy ra!",
       silent = false,
+      duration = 2,
     } = options || {};
 
     const err = error as AxiosError<any>;
@@ -23,7 +25,9 @@ export const useMessage = () => {
       err?.message ||
       fallback;
 
-    if (!silent) antdMessage[type](msg);
+    if (!silent) {
+      antdMessage[type](msg, duration);
+    }
 
     return msg;
   };
