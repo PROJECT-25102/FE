@@ -26,3 +26,9 @@ export const getSeatPrice = (seat: ISeat) => {
   const found = seat.price && seat.price.find((p) => p.seatType === seat.type);
   return found?.value || 0;
 };
+
+export const getGrowthColor = (value: number) => {
+  if (value < 0) return "text-red-500";
+  if (value === 0) return "text-yellow-500";
+  return "text-green-500";
+};
