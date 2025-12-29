@@ -13,6 +13,7 @@ import type { IRoom } from "../../../../../common/types/room";
 import type { IShowtime } from "../../../../../common/types/showtime";
 import ModalSelectRoom from "./ModalSelectRoom";
 import SeatPicker from "./SeatPicker";
+import { Spin } from "antd";
 
 const ShowtimePicker = () => {
   const nav = useAuthNavigate();
@@ -50,90 +51,99 @@ const ShowtimePicker = () => {
 
   return (
     <section>
-      <div className="bg-[#1a1d23] h-24 relative flex items-center justify-center">
-        {data?.meta && data.meta.page !== 1 && (
-          <button
-            onClick={() =>
-              onSelectPaginateChange(
-                (data.meta?.page as number) - 1,
-                data.meta?.limit,
-              )
-            }
-            className="px-5 bg-[#dc2626] h-full absolute left-0 hover:opacity-80 transition cursor-pointer"
-          >
-            <LeftOutlined />
-          </button>
-        )}
-        {data?.data &&
-          Object.entries(data.data).map(([date, showtime]) => (
-            <div
-              onClick={() => {
-                if (showtimeId && roomId) return;
-                setDateSelect(date);
-                setShowtime(showtime);
-              }}
-              className={`${date === dateSelect && "bg-[#dc2626]"} cursor-pointer h-full justify-center w-22 flex flex-col items-center`}
-            >
-              <p>{dayjs(date).format("[Thg.] MM")}</p>
-              <p className="font-semibold text-2xl">
-                {dayjs(date).format("DD")}
-              </p>
-              <p>{DAYOFWEEK_LABEL[dayjs(date).day()]}</p>
-            </div>
-          ))}
-        {data?.meta &&
-          data?.meta?.limit < data?.meta?.total &&
-          data?.meta?.page !== data?.meta?.totalPages && (
-            <button
-              onClick={() => {
-                onSelectPaginateChange(
-                  (data.meta?.page as number) + 1,
-                  data.meta?.limit,
-                );
-              }}
-              className="px-5 bg-[#dc2626] h-full absolute right-0 hover:opacity-80 transition cursor-pointer"
-            >
-              <RightOutlined />
-            </button>
-          )}
-      </div>
-      {!roomId || !showtimeId ? (
+      {isLoading ? (
+        <div className="min-h-[50vh] flex items-center gap-2 justify-center">
+          <Spin size="large" />
+          <p className="text-primary">Đang tải suất chiếu</p>
+        </div>
+      ) : (
         <>
-          {!isLoading && (
-            <div className="grid mt-8 grid-cols-5 gap-6 max-w-7xl mx-6 xl:mx-auto">
-              {showtime?.map((item) =>
-                (item.externalRoom?.length as number) > 1 ? (
-                  <ModalSelectRoom
-                    showtime={item}
-                    room={item.externalRoom as IRoom[]}
-                  >
-                    <button
-                      key={item._id}
-                      className="border border-gray-500/50 hover:bg-gray-500/50 transition cursor-pointer py-4 rounded-full"
-                    >
-                      {dayjs(item.startTime).format("HH:mm")}
-                    </button>
-                  </ModalSelectRoom>
-                ) : (
-                  <button
-                    onClick={() => {
-                      setInformation({ showtime: item, room: item.roomId });
-                      nav(
-                        `/movie/${id}/${item._id}/${item.roomId._id}?hour=${dayjs(item.startTime).format("HH:mm")}&movieId=${item.movieId._id}`,
-                      );
-                    }}
-                    key={item._id}
-                    className="border border-gray-500/50 hover:bg-gray-500/50 w-full text-white transition cursor-pointer py-4 rounded-full"
-                  >
-                    {dayjs(item.startTime).format("HH:mm")}
-                  </button>
-                ),
+          <div className="bg-[#1a1d23] h-24 relative flex items-center justify-center">
+            {data?.meta && data.meta.page !== 1 && (
+              <button
+                onClick={() =>
+                  onSelectPaginateChange(
+                    (data.meta?.page as number) - 1,
+                    data.meta?.limit,
+                  )
+                }
+                className="px-5 bg-[#dc2626] h-full absolute left-0 hover:opacity-80 transition cursor-pointer"
+              >
+                <LeftOutlined />
+              </button>
+            )}
+            {data?.data &&
+              Object.entries(data.data).map(([date, showtime]) => (
+                <div
+                  onClick={() => {
+                    if (showtimeId && roomId) return;
+                    setDateSelect(date);
+                    setShowtime(showtime);
+                  }}
+                  className={`${date === dateSelect && "bg-[#dc2626]"} cursor-pointer h-full justify-center w-22 flex flex-col items-center`}
+                >
+                  <p>{dayjs(date).format("[Thg.] MM")}</p>
+                  <p className="font-semibold text-2xl">
+                    {dayjs(date).format("DD")}
+                  </p>
+                  <p>{DAYOFWEEK_LABEL[dayjs(date).day()]}</p>
+                </div>
+              ))}
+            {data?.meta &&
+              data?.meta?.limit < data?.meta?.total &&
+              data?.meta?.page !== data?.meta?.totalPages && (
+                <button
+                  onClick={() => {
+                    onSelectPaginateChange(
+                      (data.meta?.page as number) + 1,
+                      data.meta?.limit,
+                    );
+                  }}
+                  className="px-5 bg-[#dc2626] h-full absolute right-0 hover:opacity-80 transition cursor-pointer"
+                >
+                  <RightOutlined />
+                </button>
               )}
-            </div>
+          </div>
+          {!roomId || !showtimeId ? (
+            <>
+              {!isLoading && (
+                <div className="grid mt-8 grid-cols-5 gap-6 max-w-7xl mx-6 xl:mx-auto">
+                  {showtime?.map((item) =>
+                    (item.externalRoom?.length as number) > 1 ? (
+                      <ModalSelectRoom
+                        showtime={item}
+                        room={item.externalRoom as IRoom[]}
+                      >
+                        <button
+                          key={item._id}
+                          className="border border-gray-500/50 hover:bg-gray-500/50 transition cursor-pointer py-4 rounded-full"
+                        >
+                          {dayjs(item.startTime).format("HH:mm")}
+                        </button>
+                      </ModalSelectRoom>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          setInformation({ showtime: item, room: item.roomId });
+                          nav(
+                            `/movie/${id}/${item._id}/${item.roomId._id}?hour=${dayjs(item.startTime).format("HH:mm")}&movieId=${item.movieId._id}`,
+                          );
+                        }}
+                        key={item._id}
+                        className="border border-gray-500/50 hover:bg-gray-500/50 w-full text-white transition cursor-pointer py-4 rounded-full"
+                      >
+                        {dayjs(item.startTime).format("HH:mm")}
+                      </button>
+                    ),
+                  )}
+                </div>
+              )}
+            </>
+          ) : (
+            <SeatPicker />
           )}
         </>
-      ) : (
-        <SeatPicker />
       )}
     </section>
   );
