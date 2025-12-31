@@ -12,6 +12,7 @@ import type { ICreateManyShowtimePayload } from "../../../../../../common/types/
 import { antdInputNumberPropsCurrency } from "../../../../../../common/utils";
 import { formRules } from "../../../../../../common/utils/formRules";
 import { DurationRangePicker } from "../../../../../../components/DurationPicker";
+import { useEffect, useMemo } from "react";
 
 const { RangePicker } = DatePicker;
 
@@ -65,6 +66,39 @@ const CreateManyComponent = ({
     await mutateAsync(payload);
     if (nav) navigate("/admin/showtime");
   };
+  const dateRange = Form.useWatch("dateRange", form);
+  const getValidDaysOfWeek = (
+    start?: dayjs.Dayjs,
+    end?: dayjs.Dayjs,
+  ): number[] => {
+    if (!start || !end) return [];
+    const startDay = start.day();
+    const diffDays = end.startOf("day").diff(start.startOf("day"), "day");
+    if (diffDays < 0) return [];
+    if (diffDays >= 6) {
+      return [0, 1, 2, 3, 4, 5, 6];
+    }
+
+    const days = new Set<number>();
+    for (let i = 0; i <= diffDays; i++) {
+      days.add((startDay + i) % 7);
+    }
+
+    return Array.from(days);
+  };
+
+  const validDays = useMemo(() => {
+    if (!dateRange || dateRange.length !== 2) return [];
+    return getValidDaysOfWeek(dateRange[0], dateRange[1]);
+  }, [dateRange]);
+  useEffect(() => {
+    const selectedDays: number[] = form.getFieldValue("dayOfWeek") || [];
+    const filtered = selectedDays.filter((d) => validDays.includes(d));
+
+    if (filtered.length !== selectedDays.length) {
+      form.setFieldValue("dayOfWeek", filtered);
+    }
+  }, [validDays, form]);
   return (
     <div className="p-4">
       <Form
@@ -139,33 +173,6 @@ const CreateManyComponent = ({
             />
           </Form.Item>
         </div>
-        <Form.Item
-          required
-          label="Ngày chiếu trong tuần"
-          name="dayOfWeeks"
-          rules={[formRules.required("Ngày chiếu trong tuần", "choose")]}
-        >
-          <Select
-            mode="multiple"
-            placeholder="Chọn ngày chiếu trong tuần"
-            options={[
-              { value: "all", label: "Chọn tất cả" },
-              ...Object.entries(DAYOFWEEK_LABEL).map(([value, label]) => ({
-                value: Number(value),
-                label,
-              })),
-            ]}
-            onChange={(values) => {
-              if (values.includes("all")) {
-                form.setFieldsValue({
-                  dayOfWeeks: Object.keys(DAYOFWEEK_LABEL).map((v) =>
-                    Number(v),
-                  ),
-                });
-              }
-            }}
-          />
-        </Form.Item>
 
         <div className="flex items-center gap-6">
           <Form.Item
@@ -203,6 +210,35 @@ const CreateManyComponent = ({
             />
           </Form.Item>
         </div>
+        <Form.Item
+          required
+          label="Ngày chiếu trong tuần"
+          name="dayOfWeeks"
+          rules={[formRules.required("Ngày chiếu trong tuần", "choose")]}
+        >
+          <Select
+            mode="multiple"
+            placeholder="Chọn ngày chiếu trong tuần"
+            maxTagCount="responsive"
+            options={[
+              { value: "all", label: "Chọn tất cả" },
+              ...Object.entries(DAYOFWEEK_LABEL).map(([value, label]) => ({
+                value: Number(value),
+                label,
+                disabled: !validDays.includes(Number(value)),
+              })),
+            ]}
+            onChange={(values) => {
+              if (values.includes("all")) {
+                form.setFieldsValue({
+                  dayOfWeeks: Object.keys(DAYOFWEEK_LABEL).map((v) =>
+                    Number(v),
+                  ),
+                });
+              }
+            }}
+          />
+        </Form.Item>
         <Form.Item>
           <div className="flex items-center mt-6 gap-4 justify-end">
             <Button disabled={isPending}>Đặt lại</Button>

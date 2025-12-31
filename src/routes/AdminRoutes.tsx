@@ -21,6 +21,7 @@ import ListTicket from "../pages/admin/ticket/ListTicket";
 import ScanQR from "../pages/admin/ticket/scanQR/ScanQR";
 import AdminProtected from "../common/layouts/protected/AdminProtected";
 import StatsTicket from "../pages/admin/statistics/statistics-ticket/StatsTicket";
+import StatsRevenue from "../pages/admin/statistics/statustics-revenue/StatsRevenue";
 
 export const AdminRoutes: RouteObject[] = [
   {
@@ -41,6 +42,10 @@ export const AdminRoutes: RouteObject[] = [
           {
             path: "ticket",
             element: <StatsTicket />,
+          },
+          {
+            path: "revenue",
+            element: <StatsRevenue />,
           },
         ],
       },
