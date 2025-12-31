@@ -27,6 +27,20 @@ export interface IOverviewStatsYear {
   result: IOverviewStatsYearResult[];
 }
 
+export interface IOverviewTopMovie {
+  queryTime: {
+    from: string;
+    to: string;
+  };
+  result: {
+    movieName: string;
+    revenue: number;
+    totalTickets: number;
+    movieId: string;
+    poster?: string;
+  }[];
+}
+
 export interface ITicketOverviewStats {
   totalTickets: number;
   totalRevenue: number;

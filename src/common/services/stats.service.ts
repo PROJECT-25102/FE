@@ -3,6 +3,7 @@ import type { TypeResponse } from "../types/response";
 import type {
   IOverviewStats,
   IOverviewStatsYear,
+  IOverviewTopMovie,
   ISeatTypeTrendResponse,
   ITicketHourlyTrendResponse,
   ITicketOverviewStats,
@@ -28,6 +29,15 @@ export const statsOverview = {
   ): Promise<TypeResponse<IOverviewStatsYear>> => {
     const { data } = await api.get(
       `${prefixStats}/${prefixOverview}/month-of-year`,
+      { params },
+    );
+    return data;
+  },
+  getTrendMovies: async (
+    params?: IParams,
+  ): Promise<TypeResponse<IOverviewTopMovie>> => {
+    const { data } = await api.get(
+      `${prefixStats}${prefixOverview}/trend-movies`,
       { params },
     );
     return data;

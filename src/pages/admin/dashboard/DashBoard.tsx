@@ -4,7 +4,7 @@ import {
   TeamOutlined,
 } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
-import { Card, Select } from "antd";
+import { Card, Image, Select, Spin } from "antd";
 import { useState } from "react";
 import { QUERYKEY } from "../../../common/constants/queryKey";
 import { useTableHook } from "../../../common/hooks/useTableHook";
@@ -31,6 +31,10 @@ const DashBoard = () => {
   const overviewServer = useQuery({
     queryKey: [QUERYKEY.STATS.OVERVIEW, overviewQuery],
     queryFn: () => statsOverview.getOverviewStats(overviewQuery),
+  });
+  const topMovieServer = useQuery({
+    queryKey: [QUERYKEY.STATS.OVERVIEW, "TOP_MOVIES", overviewQuery],
+    queryFn: () => statsOverview.getTrendMovies(overviewQuery),
   });
   const yearOptions = Array.from({ length: 5 }, (_, i) => ({
     label: `Năm ${currentYear - i}`,
@@ -119,6 +123,71 @@ const DashBoard = () => {
           />
         </div>
         <RevenueOverviewMonthChart />
+      </div>
+      <div className="mt-6">
+        <div className="flex items-center justify-between mb-4">
+          <p className="text-lg font-semibold">Top 5 phim bán chạy nhất</p>
+          <p className="text-gray-300/50">
+            Dữ liệu được tính theo bộ lọc tổng quan hiện tại
+          </p>
+        </div>
+        {topMovieServer.isLoading && (
+          <div className="min-h-[350px] flex items-center justify-center">
+            <Spin />
+          </div>
+        )}
+        {!topMovieServer.isLoading && (
+          <>
+            {topMovieServer.data?.data.result.length !== 0 ? (
+              <div
+                className="grid min-h-[200px] gap-4"
+                style={{
+                  gridTemplateColumns: `repeat(${topMovieServer.data?.data.result.length}, 1fr)`,
+                }}
+              >
+                {topMovieServer?.data?.data.result.map((item, index) => (
+                  <Card key={index}>
+                    <div className="flex items-start gap-4">
+                      <Image
+                        src={
+                          item.poster ||
+                          "https://i.pinimg.com/736x/db/ef/1c/dbef1c654afc5ce415517725b1217099.jpg"
+                        }
+                        style={{
+                          height: 150,
+                          width: 100,
+                          borderRadius: 5,
+                          overflow: "hidden",
+                        }}
+                      />
+                      <div className="flex flex-col gap-2">
+                        <p className="font-semibold text-lg line-clamp-1">
+                          {item.movieName}
+                        </p>
+                        <p className="line-clamp-1">
+                          Doanh thu:{" "}
+                          <span className="font-semibold">
+                            {formatCurrency(item.revenue)}
+                          </span>
+                        </p>
+                        <p className="line-clamp-1">
+                          Số vé bán ra:{" "}
+                          <span className="font-semibold">
+                            {item.totalTickets}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="flex min-h-[200px]  justify-center items-center gap-4">
+                <p className="text-gray-300/50">Chưa có dữ liệu</p>
+              </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
