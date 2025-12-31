@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Scanner } from "@yudiel/react-qr-scanner";
-import { Button, Input, QRCode, Table } from "antd";
+import { Button, Input, Popconfirm, QRCode, Table } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
@@ -14,6 +14,9 @@ import {
 import type { TypeResponse } from "../../../../common/types/response";
 import type { ITicket } from "../../../../common/types/ticket";
 import { formatCurrency } from "../../../../common/utils";
+import { PrinterOutlined } from "@ant-design/icons";
+import { useReactToPrint } from "react-to-print";
+import TicketPrint from "./components/TicketPrint";
 const column = [
   {
     title: "Phòng chiếu",
@@ -39,6 +42,7 @@ const ScanQR = () => {
   const lastResultRef = useRef<string | null>(null);
   const scanningRef = useRef(false);
   const timeoutRef = useRef<number | null>(null);
+  const printRef = useRef<HTMLDivElement>(null);
   const stopCamera = () => {
     const video = document.querySelector("video");
     if (!video?.srcObject) return;
@@ -111,6 +115,9 @@ const ScanQR = () => {
         },
       ]
     : [];
+  const handlePrint = useReactToPrint({
+    contentRef: printRef,
+  });
   return (
     <div className="bg-[#121822] w-full min-h-[87vh] rounded-md shadow-md px-6 py-4 text-white">
       <div className="flex justify-between">
@@ -222,16 +229,36 @@ const ScanQR = () => {
                   </p>
                 </div>
                 {data.success && (
-                  <div className="mt-4">
+                  <div className="mt-4 flex items-center gap-6">
                     <Button
                       disabled={isPending}
                       loading={isPending}
-                      onClick={() => mutate(data.data._id)}
-                      type="primary"
+                      icon={<PrinterOutlined />}
+                      onClick={handlePrint}
                       className="w-full! h-[45px]!"
                     >
-                      Xác nhận sử dụng vé
+                      In vé
                     </Button>
+                    <Popconfirm
+                      title="Hãy chắn chắn bạn đã in vé cho khách hàng!"
+                      onConfirm={() => mutate(data.data._id)}
+                      okText="Chắc chắn"
+                      cancelText="Huỷ bỏ"
+                    >
+                      <Button
+                        disabled={isPending}
+                        loading={isPending}
+                        type="primary"
+                        className="w-full! h-[45px]!"
+                      >
+                        Xác nhận sử dụng vé
+                      </Button>
+                    </Popconfirm>
+                  </div>
+                )}
+                {data && (
+                  <div style={{ display: "none" }}>
+                    <TicketPrint ref={printRef} ticket={data.data} />
                   </div>
                 )}
               </>

@@ -38,3 +38,58 @@ body {
 .no-wrap-label .ant-descriptions-item {
   white-space: nowrap !important;
 }
+
+@page {
+  size: 76mm 75mm;
+  margin: 0;
+}
+
+@media print {
+  body {
+    margin: 0;
+  }
+
+  .print-wrapper {
+    width: 76mm;
+  }
+
+  .ticket {
+    width: 76mm;
+    height: 75mm;
+    padding: 5mm;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    page-break-after: always;
+    position: relative;
+  }
+
+  .ticket::before {
+    content: "BEESTAR";
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-20deg);
+    font-size: 26px;
+    font-weight: 700;
+    color: rgba(12, 125, 65, 0.08);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .ticket:last-child {
+    page-break-after: auto;
+  }
+
+  .title {
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+
+  .ticket p {
+    font-size: 12px;
+    margin: 4px 0;
+  }
+}
