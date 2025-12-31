@@ -20,6 +20,7 @@ import ListShowtimeToday from "../pages/admin/showtime/ListShowtimeToday";
 import ListTicket from "../pages/admin/ticket/ListTicket";
 import ScanQR from "../pages/admin/ticket/scanQR/ScanQR";
 import AdminProtected from "../common/layouts/protected/AdminProtected";
+import StatsTicket from "../pages/admin/statistics/statistics-ticket/StatsTicket";
 
 export const AdminRoutes: RouteObject[] = [
   {
@@ -33,6 +34,15 @@ export const AdminRoutes: RouteObject[] = [
       {
         index: true,
         element: <DashBoard />,
+      },
+      {
+        path: "stats",
+        children: [
+          {
+            path: "ticket",
+            element: <StatsTicket />,
+          },
+        ],
       },
       {
         path: "movie",
