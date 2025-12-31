@@ -14,6 +14,7 @@ export interface IPayloadCheckout {
   roomId: string | undefined;
   roomName: string | undefined;
   movieName: string | undefined;
+  moviePoster: string | undefined;
   items: ISeatItemCheckout[];
   startTime: string | undefined;
   qrCode: string;

@@ -75,6 +75,7 @@ const Checkout = () => {
       movieId,
       roomName: room?.name,
       movieName: movie?.name,
+      moviePoster: movie?.poster,
       items: seat.map((item) => ({
         seatId: item._id,
         seatLabel: item.label,
